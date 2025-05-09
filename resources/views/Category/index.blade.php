@@ -57,7 +57,16 @@
                         <td class="px-4 py-2">
                             <div class="inline-flex space-x-4">
                                 <button class="text-blue-600 hover:underline"><i class="fa-solid fa-pencil"></i></button>
-                                <button class="text-red-600 hover:underline"><i class="fa-solid fa-trash-can"></i></button>
+                                <form method="POST" action="{{ route('categories.destroy', $category->id) }}"
+                                    class="delete-form">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button"
+                                        class="text-red-600 hover:underline delete-btn hover:cursor-pointer">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </form>
+
                             </div>
                         </td>
                         <td class="px-4 py-2 font-semibold">{{ $category->code_category }}</td>
@@ -71,4 +80,26 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.querySelectorAll('.delete-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const form = this.closest('form');
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data ini akan dihapus secara permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
 @endsection
