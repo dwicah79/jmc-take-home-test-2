@@ -84,21 +84,23 @@
                 </button>
             </div>
             <div class="p-4 text-xl font-bold border-b border-white/20 flex items-center">
-                <img src="{{ asset('images/logo.png') }}" class="h-6">
-                <span class="ml-2 text-sm sidebar-text">Aplikasi Pengelolaan Barang</span>
+                <a href="/dashboard" class="inline-flex items-center">
+                    <img src="{{ asset('images/logo.png') }}" class="h-6">
+                    <span class="ml-2 text-sm sidebar-text">Aplikasi Pengelolaan Barang</span>
+                </a>
             </div>
             <nav class="flex-1 p-4 overflow-y-auto">
                 <ul class="space-y-2">
                     <li>
-                        <a href="#" class="menu-item block px-4 py-2 rounded hover:bg-white/10 flex items-center">
+                        <a href="{{ route('incoming-goods.index') }}"
+                            class="{{ request()->is('incoming-goods') ? 'side-menu-active' : 'side-menu' }}">
                             <i class="fa-solid fa-download sidebar-icon mr-3"></i>
                             <span class="sidebar-text">Barang Masuk</span>
                         </a>
                     </li>
                     <li>
                         <div x-data="{ open: false }" class="relative">
-                            <button @click="open = !open"
-                                class="w-full menu-item hover:cursor-pointer  px-4 py-2 rounded bg-white/10 flex items-center justify-between">
+                            <button @click="open = !open" class="side-menu w-full justify-between hover:cursor-pointer">
                                 <div class="flex items-center">
                                     <i class="fa-regular fa-bookmark sidebar-icon mr-3"></i>
                                     <span class="sidebar-text">Master Data</span>
@@ -111,16 +113,14 @@
                                 <ul class="space-y-1">
                                     <li class="relative">
                                         <div class="absolute -left-3 top-3 h-[1px] w-3 bg-white/20"></div>
-                                        <a href="#"
-                                            class="block px-3 py-2 rounded hover:bg-white/10 flex items-center">
+                                        <a href="#" class="side-menu">
                                             <i class="fas fa-tag mr-2 sidebar-icon text-xs"></i>
                                             <span class="sidebar-text">Kategori</span>
                                         </a>
                                     </li>
                                     <li class="relative">
                                         <div class="absolute -left-3 top-3 h-[1px] w-3 bg-white/20"></div>
-                                        <a href="#"
-                                            class="block px-3 py-2 rounded hover:bg-white/10 flex items-center">
+                                        <a href="#" class="side-menu">
                                             <i class="fas fa-tags mr-2 sidebar-icon text-xs"></i>
                                             <span class="sidebar-text">Sub Kategori</span>
                                         </a>
@@ -131,8 +131,7 @@
                     </li>
                     @if (auth()->user()->hasRole('admin'))
                         <li>
-                            <a href="#"
-                                class="menu-item block px-4 py-2 rounded hover:bg-white/10 flex items-center">
+                            <a href="#" class="side-menu">
                                 <i class="fas fa-users-cog mr-3 sidebar-icon"></i>
                                 <span class="sidebar-text">Manajemen User</span>
                             </a>
