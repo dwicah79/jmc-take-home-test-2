@@ -24,4 +24,10 @@
     .bg-primary {
         @apply bg-gray-800;
     }
+    .side-menu {
+        @apply text-white hover:bg-cyan-900 hover:text-white px-4 py-2 rounded  flex items-center;
+    }
+    .side-menu-active {
+        @apply bg-cyan-900 text-white px-4 py-2 rounded  flex items-center;
+    }
 }
