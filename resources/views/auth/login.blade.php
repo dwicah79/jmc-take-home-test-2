@@ -19,6 +19,24 @@
                         <p class="text-sm text-gray-600">PT JMC Indonesia</p>
                     </div>
                 </div>
+                @if (session('success'))
+                    <div class="mb-4 p-4 rounded bg-green-100 text-green-700 border border-green-300">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if (session('error'))
+                    <div class="mb-4 p-4 rounded bg-red-100 text-red-700 border border-red-300">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
+                @if (session('warning'))
+                    <div class="mb-4 p-4 rounded bg-yellow-100 text-yellow-700 border border-yellow-300">
+                        {{ session('warning') }}
+                    </div>
+                @endif
+
 
                 <h2 class="text-lg font-semibold mb-4">LOGIN</h2>
                 <p class="text-sm text-gray-600 mb-4">Selamat Datang, silakan masukkan username dan password anda!</p>
@@ -35,8 +53,6 @@
                 </form>
             </div>
         </div>
-
-        <!-- Bagian kanan (gambar) -->
         <div class="hidden md:block md:w-1/2">
             <img src="{{ asset('images/Warehousing-101.jpg') }}" alt="Login Illustration"
                 class="object-cover h-full w-full">
