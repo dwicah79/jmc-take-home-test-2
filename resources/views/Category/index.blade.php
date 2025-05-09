@@ -38,9 +38,7 @@
                         </div>
                     </form>
                 </x-modal-form>
-                <x-search-component>
-                    <input type="text" class="border rounded px-3 py-2 text-sm" placeholder="Cari data...">
-                </x-search-component>
+                <x-search-component />
             </div>
 
             <x-data-table :headers="['No', 'Aksi', 'Kode Kategori', 'Nama Kategori']" :rows="$categories">
