@@ -10,4 +10,6 @@ interface UserRepositoryInterfaces
     public function delete($id);
     public function lock($id);
     public function unlock($id);
+
+    public function authenticate(string $username, string $password);
 }
