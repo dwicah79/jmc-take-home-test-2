@@ -26,4 +26,15 @@ class StoreCategoryRequest extends FormRequest
             'code_category' => 'required|string|max:255|unique:categories,code_category',
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name_category.required' => 'Nama kategori harus diisi',
+            'name_category.max' => 'Nama kategori maksimal 255 karakter',
+            'code_category.required' => 'Kode kategori harus diisi',
+            'code_category.max' => 'Kode kategori maksimal 255 karakter',
+            'code_category.unique' => 'Kode kategori sudah terdaftar, silakan gunakan kode lain',
+        ];
+    }
 }
