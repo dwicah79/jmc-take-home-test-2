@@ -1,8 +1,7 @@
 @extends('layout.app')
 @section('content')
     <x-breadcrumb :items="[['label' => 'Kategori Barang', 'url' => route('categories.index')]]" />
-
-    <div class="  w-full bg-white">
+    <div class="  w-full bg-white rounded-lg shadow-lg">
         <div class="md:p-10">
             <x-search-component buttonText="+ Tambah Barang">
                 <input type="text" class="border rounded px-3 py-2 text-sm" placeholder="Cari data...">
