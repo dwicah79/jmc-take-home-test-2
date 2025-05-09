@@ -34,6 +34,7 @@ class AuthController extends Controller
             if (!$result['status']) {
                 return redirect()->back()->with($result['type'], $result['message']);
             }
+            return redirect()->intended('/dashboard');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'An error occurred during login.']);
         }
