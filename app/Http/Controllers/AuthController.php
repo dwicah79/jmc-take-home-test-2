@@ -36,4 +36,14 @@ class AuthController extends Controller
         }
     }
 
+    public function logout(Request $request)
+    {
+        try {
+            $this->userRepo->logout($request->user()->id);
+            return redirect('/login')->with('success', 'Logged out successfully.');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'An error occurred during logout.']);
+        }
+    }
+
 }
