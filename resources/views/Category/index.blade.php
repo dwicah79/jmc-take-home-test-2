@@ -14,8 +14,8 @@
                     <td class="px-4 py-2">{{ ($categories->currentPage() - 1) * $categories->perPage() + $loop->iteration }}
                     </td>
                     <td class="px-4 py-2">
-                        <button class="text-blue-600 hover:underline">Edit</button>
-                        <button class="text-red-600 hover:underline">Hapus</button>
+                        <button class="text-blue-600 hover:underline"><i class="fa-solid fa-pencil"></i></button>
+                        <button class="text-red-600 hover:underline"><i class="fa-solid fa-trash-can"></i></button>
                     </td>
                     <td class="px-4 py-2 font-semibold">{{ $category->code_category }}</td>
                     <td class="px-4 py-2 font-semibold">{{ $category->name_category }}</td>
