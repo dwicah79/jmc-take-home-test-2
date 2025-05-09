@@ -1,6 +1,6 @@
 <div x-data="{ open: false }" class="relative">
     <x-button @click="open = true" label="{{ $triggerText ?? '+ Tambah Data' }}"
-        class="{{ $triggerClass ?? 'bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-700' }}">
+        class="{{ $triggerClass ?? 'bg-cyan-600 text-white text-xs md:text-lg p-2 rounded hover:bg-cyan-700' }}">
         {{ $triggerText ?? '+ Tambah Data' }}
     </x-button>
 

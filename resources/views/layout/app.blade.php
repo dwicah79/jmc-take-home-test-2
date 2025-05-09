@@ -12,7 +12,7 @@
 
     <style>
         #sidebar {
-            width: 16rem;
+            width: 17rem;
         }
 
         #sidebar.collapsed {
@@ -87,7 +87,7 @@
             </div>
             <div class="p-4 text-xl font-bold border-b border-white/20 flex items-center">
                 <a href="/dashboard" class="inline-flex items-center">
-                    <img src="{{ asset('images/logo.png') }}" class="h-6">
+                    <img src="{{ asset('images/logo.png') }}" class="h-5">
                     <span class="ml-2 text-sm sidebar-text">Aplikasi Pengelolaan Barang</span>
                 </a>
             </div>

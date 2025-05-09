@@ -17,7 +17,7 @@
                 <x-alert type="warning" message="{{ $message }}" />
             @enderror
 
-            <div class="flex justify-between items-center mb-4">
+            <div class="flex justify-between items-center mb-4 p-2 md:p-0">
                 <x-modal-form triggerClass="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
                     triggerText="+ Tambah Data" title="Form Kategori" id="createModal">
                     <form method="POST" action="{{ route('categories.store') }}">
@@ -38,7 +38,9 @@
                         </div>
                     </form>
                 </x-modal-form>
-                <x-search-component />
+                <div class="w-1/2 flex justify-end">
+                    <x-search-component />
+                </div>
             </div>
 
             <x-data-table :headers="['No', 'Aksi', 'Kode Kategori', 'Nama Kategori']" :rows="$categories">
