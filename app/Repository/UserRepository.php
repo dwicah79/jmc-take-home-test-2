@@ -63,13 +63,21 @@ class UserRepository implements UserRepositoryInterfaces
     public function authenticate(string $username, string $password)
     {
         $user = User::where('username', $username)->first();
-        if (!$user || !Hash::check($password, $user->password)) {
-            return ['status' => false, 'message' => 'Invalid credentials'];
+
+        if (!$user) {
+            return ['status' => false, 'message' => 'Username tidak ditemukan.', 'type' => 'error'];
         }
+
+        if (!Hash::check($password, $user->password)) {
+            return ['status' => false, 'message' => 'Password salah.', 'type' => 'error'];
+        }
+
         if ($user->is_locked) {
-            return ['status' => false, 'message' => 'Akun dikunci, Harap hubungi admin.'];
+            return ['status' => false, 'message' => 'Akun Anda dikunci. Hubungi admin.', 'type' => 'warning'];
         }
+
         auth()->login($user);
+
         return ['status' => true, 'user' => $user];
     }
 
