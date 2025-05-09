@@ -99,7 +99,8 @@
                         </a>
                     </li>
                     <li>
-                        <div x-data="{ open: false }" class="relative">
+                    <li>
+                        <div x-data="{ open: {{ request()->is('categories') || request()->is('subcategories*') ? 'true' : 'false' }} }" class="relative">
                             <button @click="open = !open" class="side-menu w-full justify-between hover:cursor-pointer">
                                 <div class="flex items-center">
                                     <i class="fa-regular fa-bookmark sidebar-icon mr-3"></i>
@@ -114,7 +115,7 @@
                                     <li class="relative">
                                         <div class="absolute -left-3 top-3 h-[1px] w-3 bg-white/20"></div>
                                         <a href="{{ route('categories.index') }}"
-                                            class="{{ request()->is('categories-index') ? 'side-menu-active' : 'side-menu' }}">
+                                            class="{{ request()->is('categories') ? 'side-menu-active' : 'side-menu' }}">
                                             <i class="fas fa-tag mr-2 sidebar-icon text-xs"></i>
                                             <span class="sidebar-text">Kategori</span>
                                         </a>
