@@ -20,16 +20,6 @@
             <div class="p-6 space-y-4">
                 {{ $slot }}
             </div>
-            <div class=" px-6 py-4 flex justify-end space-x-3">
-                <button @click="open = false" type="button"
-                    class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    Close
-                </button>
-                <button type="submit"
-                    class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    Submit
-                </button>
-            </div>
         </div>
     </div>
 </div>
