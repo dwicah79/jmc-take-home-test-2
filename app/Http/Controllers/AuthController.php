@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Repositories\Interfaces\UserRepositoryInterfaces;
+use App\Repository\Interfaces\UserRepositoryInterfaces;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -14,6 +14,11 @@ class AuthController extends Controller
     public function __construct(UserRepositoryInterfaces $userRepo)
     {
         $this->userRepo = $userRepo;
+    }
+
+    public function index()
+    {
+        return view('auth.login');
     }
 
     public function login(Request $request)
@@ -29,7 +34,6 @@ class AuthController extends Controller
             if (!$result['status']) {
                 return back()->withErrors(['error' => $result['message']]);
             }
-
             return redirect()->intended('/dashboard');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'An error occurred during login.']);
