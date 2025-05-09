@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCategoryRequest;
-use App\Service\CategoryService;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Service\CategoryService;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 use Illuminate\Validation\ValidationException;
 
 class CategoryController extends Controller
@@ -23,24 +25,25 @@ class CategoryController extends Controller
 
     public function store(StoreCategoryRequest $request)
     {
+        $data = $request->validated();
         try {
-            $data = $request->validated();
             $this->categoryService->store($data);
-
             return redirect()->route('categories.index')
                 ->with('success', 'Kategori berhasil ditambahkan');
-        } catch (\Illuminate\Database\QueryException $e) {
-            if ($e->getCode() == 23000) {
-                return redirect()->back()
-                    ->withInput()
-                    ->with('warning', 'Kode kategori sudah terdaftar, silakan gunakan kode lain.');
-            }
-            return redirect()->route('categories.index')
-                ->with('error', 'Gagal menambahkan kategori: ' . $e->getMessage());
-        } catch (\Exception $e) {
-            return redirect()->route('categories.index')
-                ->with('error', 'Gagal menambahkan kategori: ' . $e->getMessage());
+        } catch (ValidationException $e) {
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput();
         }
+    }
+
+    public function update(UpdateCategoryRequest $request, Category $category)
+    {
+        $data = $request->validated();
+        $this->categoryService->update($category->id, $data);
+
+        return redirect()->route('categories.index')
+            ->with('success', 'Kategori berhasil diperbarui');
     }
 
     public function destroy($id)
