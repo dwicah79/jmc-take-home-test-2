@@ -42,7 +42,7 @@
             </div>
 
             <x-data-table :headers="['No', 'Aksi', 'Kode Kategori', 'Nama Kategori']" :rows="$categories">
-                @foreach ($categories as $category)
+                @forelse ($categories as $category)
                     <tr class="bg-white">
                         <td class="px-4 py-2">
                             {{ ($categories->currentPage() - 1) * $categories->perPage() + $loop->iteration }}
@@ -69,7 +69,11 @@
                         <td class="px-4 py-2 font-semibold">{{ $category->code_category }}</td>
                         <td class="px-4 py-2 font-semibold">{{ $category->name_category }}</td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr class="bg-white">
+                        <td colspan="4" class="px-4 py-2 text-center text-gray-500">Tidak ada data</td>
+                    </tr>
+                @endforelse
             </x-data-table>
             <div class="p-5">
                 {{ $categories->links() }}
