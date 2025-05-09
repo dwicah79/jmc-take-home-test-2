@@ -9,7 +9,24 @@
                     <form method="POST" action="{{ route('categories.store') }}">
                         @csrf
                         <x-input name="code_category" label="Kode Kategori" required />
+                        @error('code_category')
+                            <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                        @enderror
+
                         <x-input name="name_category" label="Nama Kategori" required />
+                        @error('name_category')
+                            <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+                        @enderror
+                        <div class=" px-6 py-4 flex justify-end space-x-3">
+                            <button @click="open = false" type="button"
+                                class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                Close
+                            </button>
+                            <button type="submit"
+                                class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                                Submit
+                            </button>
+                        </div>
                     </form>
                 </x-modal-form>
                 <x-search-component>
@@ -34,7 +51,6 @@
                 </tr>
             @endforeach
         </x-data-table>
-
         <div class="p-5">
             {{ $categories->links() }}
         </div>
