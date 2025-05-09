@@ -19,16 +19,11 @@
 @if ($message)
     <div x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 5000)"
         class="{{ $colors[$type] }} border px-4 py-3 rounded relative mb-4" role="alert">
-        <div class="flex items-center">
+        <div class="flex items-center  gap-5">
             <span class="mr-2">
                 <i class="fas {{ $icons[$type] }}"></i>
             </span>
             <span class="block sm:inline">{{ $message }}</span>
-            <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-                <button @click="show = false" class="hover:text-gray-500">
-                    <i class="fas fa-times"></i>
-                </button>
-            </span>
         </div>
     </div>
 @endif
