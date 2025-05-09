@@ -12,9 +12,9 @@ class CategoryService
         $this->categoryRepository = $categoryRepository;
     }
 
-    public function getAll()
+    public function getAll($search = null)
     {
-        return $this->categoryRepository->all();
+        return $this->categoryRepository->all($search);
     }
 
     public function store(array $data)
