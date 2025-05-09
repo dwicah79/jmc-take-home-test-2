@@ -32,9 +32,8 @@ class AuthController extends Controller
             $result = $this->userRepo->authenticate($request->username, $request->password);
 
             if (!$result['status']) {
-                return back()->withErrors(['error' => $result['message']]);
+                return redirect()->back()->with($result['type'], $result['message']);
             }
-            return redirect()->intended('/dashboard');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'An error occurred during login.']);
         }
