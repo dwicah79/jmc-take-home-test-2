@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Service\CategoryService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class CategoryController extends Controller
 {
@@ -25,9 +26,20 @@ class CategoryController extends Controller
         try {
             $data = $request->validated();
             $this->categoryService->store($data);
-            return redirect()->route('categories.index')->with('success', 'Category created successfully');
+
+            return redirect()->route('categories.index')
+                ->with('success', 'Kategori berhasil ditambahkan');
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == 23000) {
+                return redirect()->back()
+                    ->withInput()
+                    ->with('warning', 'Kode kategori sudah terdaftar, silakan gunakan kode lain.');
+            }
+            return redirect()->route('categories.index')
+                ->with('error', 'Gagal menambahkan kategori: ' . $e->getMessage());
         } catch (\Exception $e) {
-            return back()->withInput()->with('error', 'Failed to create category: ' . $e->getMessage());
+            return redirect()->route('categories.index')
+                ->with('error', 'Gagal menambahkan kategori: ' . $e->getMessage());
         }
     }
 }
