@@ -21,4 +21,7 @@
     .text-secondary {
         @apply text-gray-700;
     }
+    .bg-primary {
+        @apply bg-gray-800;
+    }
 }
