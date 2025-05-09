@@ -19,7 +19,8 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        $categories = $this->categoryService->getAll();
+        $search = $request->input('search');
+        $categories = $this->categoryService->getAll($search);
         return view('Category.index', compact('categories'));
     }
 
