@@ -38,7 +38,7 @@
 
         <!-- Bagian kanan (gambar) -->
         <div class="hidden md:block md:w-1/2">
-            <img src="{{ asset('images/login-image.png') }}" alt="Login Illustration"
+            <img src="{{ asset('images/Warehousing-101.jpg') }}" alt="Login Illustration"
                 class="object-cover h-full w-full">
         </div>
     </div>
