@@ -7,6 +7,7 @@
     <title>{{ $title ?? 'Dashboard' }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <style>
         #sidebar {
             width: 16rem;
@@ -90,15 +91,43 @@
                 <ul class="space-y-2">
                     <li>
                         <a href="#" class="menu-item block px-4 py-2 rounded hover:bg-white/10 flex items-center">
-                            <i class="fas fa-inbox mr-3 sidebar-icon"></i>
+                            <i class="fa-solid fa-download sidebar-icon mr-3"></i>
                             <span class="sidebar-text">Barang Masuk</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="menu-item block px-4 py-2 rounded bg-white/10 flex items-center">
-                            <i class="fas fa-database mr-3 sidebar-icon"></i>
-                            <span class="sidebar-text">Master Data</span>
-                        </a>
+                        <div x-data="{ open: false }" class="relative">
+                            <button @click="open = !open"
+                                class="w-full menu-item hover:cursor-pointer  px-4 py-2 rounded bg-white/10 flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <i class="fa-regular fa-bookmark sidebar-icon mr-3"></i>
+                                    <span class="sidebar-text">Master Data</span>
+                                </div>
+                                <i class="fas fa-chevron-down sidebar-icon text-xs transition-transform duration-200"
+                                    :class="{ 'transform rotate-180': open }"></i>
+                            </button>
+
+                            <div x-show="open" x-collapse class="ml-8 mt-1 pl-3 border-l-2 border-white/20">
+                                <ul class="space-y-1">
+                                    <li class="relative">
+                                        <div class="absolute -left-3 top-3 h-[1px] w-3 bg-white/20"></div>
+                                        <a href="#"
+                                            class="block px-3 py-2 rounded hover:bg-white/10 flex items-center">
+                                            <i class="fas fa-tag mr-2 sidebar-icon text-xs"></i>
+                                            <span class="sidebar-text">Kategori</span>
+                                        </a>
+                                    </li>
+                                    <li class="relative">
+                                        <div class="absolute -left-3 top-3 h-[1px] w-3 bg-white/20"></div>
+                                        <a href="#"
+                                            class="block px-3 py-2 rounded hover:bg-white/10 flex items-center">
+                                            <i class="fas fa-tags mr-2 sidebar-icon text-xs"></i>
+                                            <span class="sidebar-text">Sub Kategori</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </li>
                     @if (auth()->user()->hasRole('admin'))
                         <li>
