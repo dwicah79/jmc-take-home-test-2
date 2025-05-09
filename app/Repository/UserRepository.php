@@ -83,8 +83,7 @@ class UserRepository implements UserRepositoryInterfaces
 
     public function logout($id)
     {
-        $user = $this->find($id);
-        auth()->logout($user);
+        auth()->logout();
         return ['status' => true, 'message' => 'Logout successful'];
     }
 }
