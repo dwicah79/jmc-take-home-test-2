@@ -34,5 +34,13 @@ class UserSeeder extends Seeder
             'is_locked' => false,
         ]);
         $operator->assignRole($operatorRole);
+        $operator = User::create([
+            'name' => 'Contoh Locked User',
+            'username' => 'locked',
+            'email' => 'locked@gmail.com',
+            'password' => Hash::make('password'),
+            'is_locked' => true,
+        ]);
+        $operator->assignRole($operatorRole);
     }
 }
