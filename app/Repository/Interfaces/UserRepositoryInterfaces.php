@@ -12,4 +12,5 @@ interface UserRepositoryInterfaces
     public function unlock($id);
 
     public function authenticate(string $username, string $password);
+    public function logout($id);
 }
