@@ -42,4 +42,16 @@ class CategoryController extends Controller
                 ->with('error', 'Gagal menambahkan kategori: ' . $e->getMessage());
         }
     }
+
+    public function destroy($id)
+    {
+        try {
+            $this->categoryService->destroy($id);
+            return redirect()->route('categories.index')
+                ->with('success', 'Kategori berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect()->route('categories.index')
+                ->with('error', 'Gagal menghapus kategori: ' . $e->getMessage());
+        }
+    }
 }
