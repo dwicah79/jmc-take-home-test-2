@@ -8,112 +8,119 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        .collapsed {
-            width: 70px !important;
-            overflow: hidden;
+        #sidebar {
+            width: 16rem;
         }
 
-        .collapsed .nav-text,
-        .collapsed .logo-text {
-            display: none;
+        #sidebar.collapsed {
+            width: 5rem !important;
         }
 
-        .collapsed .menu-item {
-            justify-content: center;
-            padding-left: 0;
-            padding-right: 0;
+        #sidebar.collapsed .sidebar-text {
+            display: none !important;
         }
 
-        .sidebar-collapsed {
-            margin-left: 70px !important;
+        #sidebar.collapsed .sidebar-icon {
+            margin-right: 0 !important;
         }
 
-        .menu-item.active {
-            background-color: rgba(255, 255, 255, 0.1);
+        #sidebar.collapsed .menu-item {
+            justify-content: center !important;
         }
 
-        .menu-item:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+        #main-content {
+            margin-left: 16rem;
         }
-    </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggleBtn = document.getElementById('sidebar-toggle');
-            const sidebar = document.getElementById('sidebar');
-            const mainContent = document.getElementById('main-content');
-            const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
 
-            if (isCollapsed) {
-                sidebar.classList.add('collapsed');
-                mainContent.classList.add('sidebar-collapsed');
+        #main-content.sidebar-collapsed {
+            margin-left: 5rem !important;
+        }
+
+        @media (max-width: 768px) {
+            #sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                z-index: 40;
+                height: 100vh;
+                transition: transform 0.3s ease-in-out;
             }
 
-            toggleBtn.addEventListener('click', function() {
-                sidebar.classList.toggle('collapsed');
-                mainContent.classList.toggle('sidebar-collapsed');
-                localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
-            });
-        });
+            #sidebar.mobile-open {
+                transform: translateX(0);
+            }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const toggle = document.getElementById('dropdown-toggle');
-            const menu = document.getElementById('dropdown-menu');
+            #main-content {
+                margin-left: 0 !important;
+            }
 
-            document.addEventListener('click', function(e) {
-                if (toggle.contains(e.target)) {
-                    menu.classList.toggle('hidden');
-                } else if (!menu.contains(e.target)) {
-                    menu.classList.add('hidden');
-                }
-            });
-        });
-    </script>
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 30;
+            }
+
+            .overlay.active {
+                display: block;
+            }
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100 text-gray-800">
     <div class="flex min-h-screen">
+        <div id="mobile-overlay" class="overlay"></div>
         <aside id="sidebar"
-            class="w-1/4 bg-primary text-white flex flex-col transition-all duration-300 ease-in-out fixed h-full top-0 left-0 z-20">
-            <div class="p-4 text-xl font-bold border-b border-white/20 flex items-center justify-between">
-                <div class="flex items-center">
-                    <img src="{{ asset('images/logo.jpeg') }}" class="h-6 inline">
-                    <span class="ml-2 text-lg logo-text">Aplikasi Pengelolaan Barang</span>
-                </div>
-                <button id="sidebar-toggle"
-                    class="text-white text-xl hover:text-cyan-300 hover:cursor-pointer focus:outline-none">
-                    <i class="fas fa-bars"></i>
+            class="bg-primary text-white flex flex-col transition-all duration-300 ease-in-out fixed h-full top-0 left-0 z-30">
+            <div class="relative">
+                <button id="sidebar-toggle" title="Toggle Sidebar"
+                    class="absolute -right-3 top-4 z-100 bg-white rounded-full w-6 h-6 flex items-center justify-center shadow-sm hover:bg-gray-100 transition-all">
+                    <i id="toggle-icon" class="fas fa-times text-xs text-gray-800"></i>
                 </button>
             </div>
-            <nav class="flex-1 p-4">
+            <div class="p-4 text-xl font-bold border-b border-white/20 flex items-center">
+                <img src="{{ asset('images/logo.png') }}" class="h-6">
+                <span class="ml-2 text-sm sidebar-text">Aplikasi Pengelolaan Barang</span>
+            </div>
+            <nav class="flex-1 p-4 overflow-y-auto">
                 <ul class="space-y-2">
                     <li>
-                        <a href="#" class="block px-4 py-2 rounded menu-item active flex items-center">
-                            <i class="fas fa-inbox mr-3"></i>
-                            <span class="nav-text">Barang Masuk</span>
+                        <a href="#" class="menu-item block px-4 py-2 rounded hover:bg-white/10 flex items-center">
+                            <i class="fas fa-inbox mr-3 sidebar-icon"></i>
+                            <span class="sidebar-text">Barang Masuk</span>
                         </a>
                     </li>
                     <li>
-                        <a href="#" class="block px-4 py-2 rounded menu-item flex items-center">
-                            <i class="fas fa-database mr-3"></i>
-                            <span class="nav-text">Master Data</span>
+                        <a href="#" class="menu-item block px-4 py-2 rounded bg-white/10 flex items-center">
+                            <i class="fas fa-database mr-3 sidebar-icon"></i>
+                            <span class="sidebar-text">Master Data</span>
                         </a>
                     </li>
                     @if (auth()->user()->hasRole('admin'))
                         <li>
-                            <a href="#" class="block px-4 py-2 rounded menu-item flex items-center">
-                                <i class="fas fa-users-cog mr-3"></i>
-                                <span class="nav-text">Manajemen User</span>
+                            <a href="#"
+                                class="menu-item block px-4 py-2 rounded hover:bg-white/10 flex items-center">
+                                <i class="fas fa-users-cog mr-3 sidebar-icon"></i>
+                                <span class="sidebar-text">Manajemen User</span>
                             </a>
                         </li>
                     @endif
                 </ul>
             </nav>
         </aside>
-        <div id="main-content" class="flex-1 flex flex-col ml-64 transition-all duration-300 ease-in-out">
-            <header class="bg-white px-6 py-4 shadow flex justify-between items-center">
-                <div class="text-sm text-gray-600">
-                </div>
 
+        <div id="main-content" class="flex-1 flex flex-col transition-all duration-300 ease-in-out">
+            <header class="bg-white px-6 py-4 shadow flex justify-between items-center">
+                <div class="flex items-center gap-4">
+                    <button id="mobile-sidebar-toggle" class="md:hidden text-gray-600">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="text-lg font-semibold">@yield('page-title', 'Dashboard')</h1>
+                </div>
                 <div class="flex items-center gap-4">
                     <div class="text-right hidden sm:block">
                         <span class="text-sm text-gray-800 font-medium">
@@ -129,7 +136,7 @@
                             class="bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center font-semibold focus:outline-none">
                             {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 2)) }}
                         </button>
-                        <div id="dropdown-menu" class="absolute right-0 mt-2 bg-white  rounded shadow z-10 w-32 hidden">
+                        <div id="dropdown-menu" class="absolute right-0 mt-2 bg-white rounded shadow z-10 w-32 hidden">
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button
@@ -142,11 +149,99 @@
                 </div>
             </header>
 
-            <main class="p-6 bg-gray-200 flex-1">
+            <main class="p-4 md:p-6 bg-gray-200 flex-1 overflow-x-auto">
                 @yield('content')
             </main>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleBtn = document.getElementById('sidebar-toggle');
+            const mobileToggleBtn = document.getElementById('mobile-sidebar-toggle');
+            const mobileOverlay = document.getElementById('mobile-overlay');
+            const toggleIcon = document.getElementById('toggle-icon');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+            function setSidebarState(collapsed) {
+                if (isMobile) {
+                    return;
+                }
+
+                if (collapsed) {
+                    sidebar.classList.add('collapsed');
+                    mainContent.classList.add('sidebar-collapsed');
+                    toggleIcon.classList.remove('fa-times');
+                    toggleIcon.classList.add('fa-bars');
+                } else {
+                    sidebar.classList.remove('collapsed');
+                    mainContent.classList.remove('sidebar-collapsed');
+                    toggleIcon.classList.remove('fa-bars');
+                    toggleIcon.classList.add('fa-times');
+                }
+                localStorage.setItem('sidebarCollapsed', collapsed);
+            }
+
+            function toggleMobileSidebar() {
+                sidebar.classList.toggle('mobile-open');
+                mobileOverlay.classList.toggle('active');
+                toggleIcon.classList.remove('fa-times');
+                document.body.classList.toggle('overflow-hidden');
+            }
+            if (!isMobile) {
+                setSidebarState(isCollapsed);
+            }
+            toggleBtn.addEventListener('click', function() {
+                if (isMobile) {
+                    toggleMobileSidebar();
+                } else {
+                    const currentlyCollapsed = sidebar.classList.contains('collapsed');
+                    setSidebarState(!currentlyCollapsed);
+                }
+            });
+            mobileToggleBtn.addEventListener('click', function() {
+                toggleMobileSidebar();
+            });
+            mobileOverlay.addEventListener('click', function() {
+                toggleMobileSidebar();
+            });
+            const dropdownToggle = document.getElementById('dropdown-toggle');
+            const dropdownMenu = document.getElementById('dropdown-menu');
+
+            document.addEventListener('click', function(e) {
+                if (dropdownToggle.contains(e.target)) {
+                    dropdownMenu.classList.toggle('hidden');
+                } else if (!dropdownMenu.contains(e.target)) {
+                    dropdownMenu.classList.add('hidden');
+                }
+            });
+            const sidebarLinks = document.querySelectorAll('#sidebar a');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (isMobile) {
+                        toggleMobileSidebar();
+                    }
+                });
+            });
+            window.addEventListener('resize', function() {
+                const isNowMobile = window.matchMedia('(max-width: 768px)').matches;
+
+                if (isNowMobile !== isMobile) {
+                    if (isNowMobile) {
+                        sidebar.classList.remove('collapsed');
+                        sidebar.classList.remove('mobile-open');
+                        mobileOverlay.classList.remove('active');
+                    } else {
+                        const collapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+                        setSidebarState(collapsed);
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
