@@ -12,10 +12,10 @@
     <div class="min-h-screen flex">
         <div class="w-full md:w-1/2 flex items-center justify-center bg-white p-10">
             <div class="w-full max-w-md">
-                <div class="mb-6 flex">
-                    <img src="{{ asset('images/logo.jpeg') }}" alt="Logo" class="h-10 mb-2">
-                    <div class="flex flex-col">
-                        <h1 class="text-xl font-bold text-gray-800">Aplikasi Pengelolaan Barang</h1>
+                <div class="mb-6 flex space-x-3">
+                    <img src="{{ asset('images/logo.jpeg') }}" alt="Logo" class="h-20 w-20 mb-2">
+                    <div class="flex flex-col justify-center">
+                        <h1 class="text-xl font-bold text-primary">Aplikasi Pengelolaan Barang</h1>
                         <p class="text-sm text-gray-600">PT JMC Indonesia</p>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                 @endif
 
 
-                <h2 class="text-lg font-semibold mb-4">LOGIN</h2>
+                <h2 class="text-lg font-semibold mb-4 text-primary">LOGIN</h2>
                 <p class="text-sm text-gray-600 mb-4">Selamat Datang, silakan masukkan username dan password anda!</p>
 
                 <form method="POST" action="{{ route('login.post') }}">
