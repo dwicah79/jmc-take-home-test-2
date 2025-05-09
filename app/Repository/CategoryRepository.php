@@ -7,9 +7,16 @@ use App\Repository\Interfaces\CategoryRepositoryInterfaces;
 
 class CategoryRepository implements CategoryRepositoryInterfaces
 {
-    public function all()
+    public function all($search = null)
     {
-        return Category::paginate(10);
+        $query = Category::query();
+
+        if ($search) {
+            $query->where('code_category', 'like', "%$search%")
+                ->orWhere('name_category', 'like', "%$search%");
+        }
+
+        return $query->paginate(10);
     }
 
     public function create(array $data)
