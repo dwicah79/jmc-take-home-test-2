@@ -108,7 +108,7 @@
                                     <i class="fa-regular fa-bookmark sidebar-icon mr-3"></i>
                                     <span class="sidebar-text">Master Data</span>
                                 </div>
-                                <i class="fas fa-chevron-down sidebar-icon text-xs transition-transform duration-200"
+                                <i class="fas fa-chevron-down sidebar-icon text-xs transition-transform duration-200 sidebar-text"
                                     :class="{ 'transform rotate-180': open }"></i>
                             </button>
 
