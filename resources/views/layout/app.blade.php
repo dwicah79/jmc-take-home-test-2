@@ -78,7 +78,7 @@
             class="bg-primary text-white flex flex-col transition-all duration-300 ease-in-out fixed h-full top-0 left-0 z-30">
             <div class="relative">
                 <button id="sidebar-toggle" title="Toggle Sidebar"
-                    class="absolute -right-3 top-4 z-100 bg-white rounded-full w-6 h-6 flex items-center justify-center shadow-sm hover:bg-gray-100 transition-all">
+                    class="hidden absolute md:flex hover:cursor-pointer -right-3 top-5 z-100 bg-white rounded-full w-6 h-6  items-center justify-center shadow-sm hover:bg-gray-100 transition-all">
                     <i id="toggle-icon" class="fas fa-times text-xs text-gray-800"></i>
                 </button>
             </div>
@@ -116,7 +116,7 @@
         <div id="main-content" class="flex-1 flex flex-col transition-all duration-300 ease-in-out">
             <header class="bg-white px-6 py-4 shadow flex justify-between items-center">
                 <div class="flex items-center gap-4">
-                    <button id="mobile-sidebar-toggle" class="md:hidden text-gray-600">
+                    <button id="mobile-sidebar-toggle" class="md:hidden text-gray-600 hover:cursor-pointer">
                         <i class="fas fa-bars"></i>
                     </button>
                     <h1 class="text-lg font-semibold">@yield('page-title', 'Dashboard')</h1>
