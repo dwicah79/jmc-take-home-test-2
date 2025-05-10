@@ -184,6 +184,9 @@
             </header>
 
             <main class="p-4 md:p-6 bg-gray-200 flex-1 overflow-x-auto">
+                @if (session('error'))
+                    <x-alert type="error" message="{{ session('error') }}" />
+                @endif
                 @yield('content')
             </main>
         </div>
