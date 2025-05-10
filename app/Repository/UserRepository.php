@@ -14,7 +14,8 @@ class UserRepository implements UserRepositoryInterfaces
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('username', 'like', "%$search%")
-                    ->orWhere('name', 'like', "%$search%");
+                    ->orWhere('name', 'like', "%$search%")
+                    ->orWhere('email', 'like', "%$search%");
             });
         }
 
