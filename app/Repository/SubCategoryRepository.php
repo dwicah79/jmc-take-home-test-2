@@ -12,8 +12,7 @@ class SubCategoryRepository implements SubCategoryRepositoryInterfaces
         if ($search) {
             $query->whereHas('category', function ($q) use ($search) {
                 $q->where('name_category', 'like', "%$search%");
-            })->orWhere('name_sub_category', 'like', "%$search%")
-                ->orWhere('category_code', 'like', "%$search%");
+            })->orWhere('sub_category_name', 'like', "%$search%");
         }
         return $query->paginate(10);
     }
