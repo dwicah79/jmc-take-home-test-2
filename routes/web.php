@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-Route::middleware('auth', 'role:admin')->group(function () {
+Route::middleware('auth', 'checkpermission')->group(function () {
     Route::prefix('user-management')->group(function () {
         Route::get('/', [UserManagementController::class, 'index'])->name('users.index');
         Route::post('/store', [UserManagementController::class, 'store'])->name('users.store');
