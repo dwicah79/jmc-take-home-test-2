@@ -50,5 +50,7 @@ Route::middleware('auth', 'checkpermission')->group(function () {
         Route::get('/{id}/edit', [UserManagementController::class, 'edit'])->name('users.edit');
         Route::put('/{user}', [UserManagementController::class, 'update'])->name('users.update');
         Route::delete('/{user}', [UserManagementController::class, 'destroy'])->name('users.destroy');
+        Route::put('/{id}/lock', [UserManagementController::class, 'lock'])->name('users.lock');
+        Route::put('/{id}/unlock', [UserManagementController::class, 'unlock'])->name('users.unlock');
     });
 });
