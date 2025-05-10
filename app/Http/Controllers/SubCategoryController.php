@@ -16,7 +16,6 @@ class SubCategoryController extends Controller
     {
         $search = $request->input('search');
         $subcategories = $this->subCategoryService->getAll($search);
-        return $subcategories;
         return view('SubCategory.index', compact('subcategories'));
     }
 }
