@@ -18,7 +18,6 @@ class UserManagementController extends Controller
     {
         $search = $request->input('search');
         $users = $this->userService->all($search);
-        return $users;
         return view('UserManagement.index', compact('users'));
     }
 }
