@@ -50,7 +50,12 @@
                             <x-input name="sub_category_name" label="Nama Sub Kategori" required />
                         </div>
                         <div class="mb-4">
-                            <x-input name="price_range" label="Batas Harga" required />
+                            <label for="price_range" class="block text-sm font-semibold text-gray-700 mb-2">Batas
+                                Harga</label>
+                            <input type="text" name="price_range_display" id="price_range_display"
+                                class="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-md leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                required>
+                            <input type="hidden" name="price_range" id="price_range">
                         </div>
                         <div class="px-6 py-4 flex justify-end space-x-3">
                             <button @click="open = false" type="button" class="btn-secondary">
@@ -180,6 +185,24 @@
             if (e.target === this) {
                 closeEditModal();
             }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            new Cleave('#price_range_display', {
+                numeral: true,
+                numeralThousandsGroupStyle: 'thousand',
+                numeralDecimalScale: 0,
+                onValueChanged: function(e) {
+                    document.getElementById('price_range').value = e.target.rawValue;
+                }
+            });
+            @if (old('price_range'))
+                const cleave = new Cleave('#price_range_display', {
+                    numeral: true,
+                    numeralThousandsGroupStyle: 'thousand'
+                });
+                cleave.setRawValue({{ old('price_range') }});
+            @endif
         });
     </script>
 @endsection
