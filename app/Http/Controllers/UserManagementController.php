@@ -61,4 +61,16 @@ class UserManagementController extends Controller
                 ->with('error', 'Gagal membuka kunci user: ' . $e->getMessage());
         }
     }
+
+    public function destroy($id)
+    {
+        try {
+            $this->userService->destroy($id);
+            return redirect()->route('users.index')
+                ->with('success', 'Akun berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect()->route('users.index')
+                ->with('error', 'Gagal menghapus akun: ' . $e->getMessage());
+        }
+    }
 }
