@@ -10,10 +10,16 @@
             @if (session('warning'))
                 <x-alert type="warning" message="{{ session('warning') }}" />
             @endif
-            @error('code_category')
+            @error('name')
                 <x-alert type="warning" message="{{ $message }}" />
             @enderror
-            @error('name_category')
+            @error('username')
+                <x-alert type="warning" message="{{ $message }}" />
+            @enderror
+            @error('password')
+                <x-alert type="warning" message="{{ $message }}" />
+            @enderror
+            @error('email')
                 <x-alert type="warning" message="{{ $message }}" />
             @enderror
 
@@ -23,10 +29,37 @@
                     <form method="POST" action="{{ route('categories.store') }}">
                         @csrf
                         <div class="mb-4">
-                            <x-input name="code_category" label="Kode Kategori" required />
+                            <label for="role" class="block text-sm font-semibold text-gray-700 mb-2">Role</label>
+                            <div class="relative">
+                                <select name="role" id="role" required
+                                    class="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Pilih Role</option>
+                                    @foreach ($roles as $role)
+                                        <option value="{{ $role->name }}"
+                                            {{ old('role') == $role->name ? 'selected' : '' }}>
+                                            {{ ucfirst($role->name) }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-600">
+                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                                        <path d="M7 7l3-3 3 3H7zm0 6l3 3 3-3H7z" />
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
                         <div class="mb-4">
-                            <x-input name="name_category" label="Nama Kategori" required />
+                            <x-input name="name" label="Nama Lengkap" required />
+                        </div>
+                        <div class="mb-4">
+                            <x-input name="username" label="Username" required />
+                        </div>
+                        <div class="mb-4">
+                            <x-input name="password" label="Password" type="password" required />
+                        </div>
+                        <div class="mb-4">
+                            <x-input name="email" label="Email" required />
                         </div>
                         <div class="px-6 py-4 flex justify-end space-x-3">
                             <button @click="open = false" type="button" class="btn-secondary">
