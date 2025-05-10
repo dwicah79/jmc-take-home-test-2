@@ -9,7 +9,7 @@ class CategoryRepository implements CategoryRepositoryInterfaces
 {
     public function all($search = null)
     {
-        $query = Category::query();
+        $query = Category::query()->orderBy('id', 'desc');
 
         if ($search) {
             $query->where('code_category', 'like', "%$search%")
