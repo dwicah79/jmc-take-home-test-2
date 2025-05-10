@@ -5,9 +5,17 @@ use App\Repository\Interfaces\SubCategoryRepositoryInterfaces;
 
 class SubCategoryRepository implements SubCategoryRepositoryInterfaces
 {
-    public function all()
+    public function all($search = null)
     {
-        return SubCategory::with('category')->paginate(10);
+        $query = SubCategory::with('category')->orderBy('id', 'desc');
+
+        if ($search) {
+            $query->whereHas('category', function ($q) use ($search) {
+                $q->where('name_category', 'like', "%$search%");
+            })->orWhere('name_sub_category', 'like', "%$search%")
+                ->orWhere('category_code', 'like', "%$search%");
+        }
+        return $query->paginate(10);
     }
 
     public function find($id)
