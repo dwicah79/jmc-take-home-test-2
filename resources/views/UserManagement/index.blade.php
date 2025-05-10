@@ -58,20 +58,21 @@
                                 </button>
 
                                 @if ($user->is_locked == 0)
-                                    <form method="POST" action="" class="delete-form">
+                                    <form method="POST" action="{{ route('users.lock', $user->id) }}"class="delete-form">
                                         @csrf
                                         @method('PUT')
                                         <button type="button"
-                                            class="text-green-600 hover:text-green-700 delete-btn hover:cursor-pointer">
+                                            class="text-green-600 lock-btn hover:text-green-700 hover:cursor-pointer">
                                             <i class="fa-solid fa-lock"></i>
                                         </button>
                                     </form>
                                 @else
-                                    <form method="POST" action="" class="delete-form">
+                                    <form method="POST"
+                                        action="{{ route('users.unlock', $user->id) }}"class="delete-form">
                                         @csrf
                                         @method('PUT')
                                         <button type="button"
-                                            class="text-red-600 hover:text-red-700 delete-btn hover:cursor-pointer">
+                                            class="text-red-600 lock-btn hover:text-red-700 hover:cursor-pointer">
                                             <i class="fa-solid fa-unlock"></i>
                                         </button>
                                     </form>
@@ -161,6 +162,30 @@
                     cancelButtonColor: '#3085d6',
                     confirmButtonText: 'Ya, hapus!',
                     cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+        document.querySelectorAll('.lock-btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const form = this.closest('form');
+                const isUnlockAction = form.action.includes('unlock');
+
+                Swal.fire({
+                    title: isUnlockAction ? 'Buka kunci akun ini?' : 'Kunci akun ini?',
+                    text: isUnlockAction ?
+                        'Akun akan dapat digunakan kembali.' :
+                        'Akun tidak akan bisa login sampai dibuka kuncinya.',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: isUnlockAction ? '#28a745' : '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: isUnlockAction ? 'Ya, Buka Kunci' : 'Ya, Kunci Akun',
+                    cancelButtonText: 'Batal',
+                    reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
                         form.submit();
