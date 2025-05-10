@@ -43,7 +43,7 @@
                 </div>
             </div>
 
-            <x-data-table :headers="['No', 'Aksi', 'Username', 'Nama', 'Email', 'Role']" :rows="$users">
+            <x-data-table :headers="['No', 'Aksi', 'Username', 'Nama', 'Email', 'Role', 'Status']" :rows="$users">
                 @forelse ($users as $user)
                     <tr class="bg-white">
                         <td class="px-4 py-2">
@@ -56,6 +56,26 @@
                                     class="text-blue-600 hover:underline hover:cursor-pointer">
                                     <i class="fa-solid fa-pencil"></i>
                                 </button>
+
+                                @if ($user->is_locked == 0)
+                                    <form method="POST" action="" class="delete-form">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="button"
+                                            class="text-green-600 hover:underline delete-btn hover:cursor-pointer">
+                                            <i class="fa-solid fa-lock"></i>
+                                        </button>
+                                    </form>
+                                @else
+                                    <form method="POST" action="" class="delete-form">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="button"
+                                            class="text-red-600 hover:underline delete-btn hover:cursor-pointer">
+                                            <i class="fa-solid fa-unlock"></i>
+                                        </button>
+                                    </form>
+                                @endif
 
                                 <form method="POST" action="{{ route('categories.destroy', $user->id) }}"
                                     class="delete-form">
@@ -74,6 +94,11 @@
                         <td class="px-4 py-2 font-semibold">
                             {{ $user->roles->first()?->name ?? '-' }}
                         </td>
+                        @if ($user->is_locked == 0)
+                            <td class="px-4 py-2 font-semibold text-green-500">Aktif</td>
+                        @else
+                            <td class="px-4 py-2 font-semibold text-red-500">Tidak Aktif</td>
+                        @endif
                     </tr>
                 @empty
                     <tr class="bg-white">
