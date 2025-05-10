@@ -124,7 +124,8 @@
                                     </li>
                                     <li class="relative">
                                         <div class="absolute -left-3 top-3 h-[1px] w-3 bg-white/20"></div>
-                                        <a href="#" class="side-menu">
+                                        <a href="{{ route('subcategories.index') }}"
+                                            class="{{ request()->is('subcategories') ? 'side-menu-active' : 'side-menu' }}">
                                             <i class="fas fa-tags mr-2 sidebar-icon text-xs"></i>
                                             <span class="sidebar-text">Sub Kategori</span>
                                         </a>
