@@ -25,7 +25,6 @@ class SubCategoryController extends Controller
 
     public function store(StoreSubCategoryRequest $request)
     {
-        dd($request->all());
         $data = $request->validated();
         try {
             $this->subCategoryService->store($data);
