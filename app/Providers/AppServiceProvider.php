@@ -6,9 +6,13 @@ use App\Repository\UserRepository;
 use App\Repository\CategoryRepository;
 use Illuminate\Support\ServiceProvider;
 use App\Repository\SubCategoryRepository;
+use App\Repository\IncomingGoodsRepository;
+use App\Repository\IncomingGoodsDetileRepository;
 use App\Repository\Interfaces\UserRepositoryInterfaces;
 use App\Repository\Interfaces\CategoryRepositoryInterfaces;
 use App\Repository\Interfaces\SubCategoryRepositoryInterfaces;
+use App\Repository\Interfaces\IncomingGoodsRepositoryInterface;
+use App\Repository\Interfaces\IncomingGoodsDetileRepositoryinterfaces;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(UserRepositoryInterfaces::class, UserRepository::class);
         $this->app->bind(CategoryRepositoryInterfaces::class, CategoryRepository::class);
         $this->app->bind(SubCategoryRepositoryInterfaces::class, SubCategoryRepository::class);
+        $this->app->bind(IncomingGoodsRepositoryInterface::class, IncomingGoodsRepository::class);
+        $this->app->bind(IncomingGoodsDetileRepositoryinterfaces::class, IncomingGoodsDetileRepository::class);
     }
 
     /**
