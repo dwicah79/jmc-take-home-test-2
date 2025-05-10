@@ -10,23 +10,47 @@
             @if (session('warning'))
                 <x-alert type="warning" message="{{ session('warning') }}" />
             @endif
-            @error('code_category')
+            @error('sub_category_name')
                 <x-alert type="warning" message="{{ $message }}" />
             @enderror
-            @error('name_category')
+            @error('category_id')
+                <x-alert type="warning" message="{{ $message }}" />
+            @enderror
+            @error('price_range')
                 <x-alert type="warning" message="{{ $message }}" />
             @enderror
 
             <div class="flex justify-between items-center mb-4 p-2 md:p-0">
                 <x-modal-form triggerClass="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                    triggerText="+ Tambah Data" title="Form Kategori" id="createModal">
+                    triggerText="+ Tambah Data" title="Form Sub Kategori" id="createModal">
                     <form method="POST" action="{{ route('subcategories.store') }}">
                         @csrf
                         <div class="mb-4">
-                            <x-input name="code_category" label="Kode Kategori" required />
+                            <label for="category_id" class="block text-sm font-semibold text-gray-700 mb-2">Kategori</label>
+                            <div class="relative">
+                                <select name="category_id" id="category_id"
+                                    class="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Pilih Kategori</option>
+                                    @foreach ($category as $item)
+                                        <option value="{{ $item->id }}"
+                                            {{ old('category_id') == $item->id ? 'selected' : '' }}>
+                                            {{ $item->name_category }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-600">
+                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                                        <path d="M7 7l3-3 3 3H7zm0 6l3 3 3-3H7z" />
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
                         <div class="mb-4">
-                            <x-input name="name_category" label="Nama Kategori" required />
+                            <x-input name="sub_category_name" label="Nama Sub Kategori" required />
+                        </div>
+                        <div class="mb-4">
+                            <x-input name="price_range" label="Batas Harga" required />
                         </div>
                         <div class="px-6 py-4 flex justify-end space-x-3">
                             <button @click="open = false" type="button" class="btn-secondary">
