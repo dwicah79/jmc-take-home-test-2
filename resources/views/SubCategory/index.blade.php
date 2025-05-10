@@ -80,8 +80,7 @@
                         </td>
                         <td class="px-4 py-2">
                             <div class="inline-flex space-x-4">
-                                <button type="button"
-                                    onclick="openEditModal('{{ $subscategory->id }}', '{{ $subscategory->code_category }}', '{{ $subscategory->name_category }}')"
+                                <button type="button" onclick="openEditModal({{ $subscategory->toJson() }})"
                                     class="text-blue-600 hover:underline hover:cursor-pointer">
                                     <i class="fa-solid fa-pencil"></i>
                                 </button>
@@ -117,29 +116,49 @@
     <div id="editModal" class="fixed inset-0 bg-black/20 z-50 hidden flex items-center justify-center">
         <div class="bg-white rounded-lg shadow-lg w-full max-w-md mx-4">
             <div class="px-6 py-4">
-                <h3 class="text-lg font-medium text-gray-900">Form</h3>
+                <h3 class="text-lg font-medium text-gray-900">Edit Sub Kategori</h3>
             </div>
             <form id="editForm" method="POST" action="">
                 @csrf
                 @method('PUT')
                 <div class="p-6">
-                    <div class="mb-6">
-                        <label for="edit_code_category" class="block text-sm font-medium text-gray-700 mb-2">Kode
+                    <div class="mb-4">
+                        <label for="edit_category_id"
+                            class="block text-sm font-semibold text-gray-700 mb-2">Kategori</label>
+                        <div class="relative">
+                            <select name="category_id" id="edit_category_id"
+                                class="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                <option value="">Pilih Kategori</option>
+                                @foreach ($category as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name_category }}</option>
+                                @endforeach
+                            </select>
+                            <div
+                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-600">
+                                <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                                    <path d="M7 7l3-3 3 3H7zm0 6l3 3 3-3H7z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="edit_sub_category_name" class="block text-sm font-semibold text-gray-700 mb-2">Nama Sub
                             Kategori</label>
-                        <input type="text" name="code_category" id="edit_code_category"
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                        <input type="text" name="sub_category_name" id="edit_sub_category_name"
+                            class="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-md leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             required>
                     </div>
-                    <div class="mb-6">
-                        <label for="edit_name_category" class="block text-sm font-medium text-gray-700 mb-2">Nama
-                            Kategori</label>
-                        <input type="text" name="name_category" id="edit_name_category"
-                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    <div class="mb-4">
+                        <label for="edit_price_range_display" class="block text-sm font-semibold text-gray-700 mb-2">Batas
+                            Harga</label>
+                        <input type="text" name="price_range_display" id="edit_price_range_display"
+                            class="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-md leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             required>
+                        <input type="hidden" name="price_range" id="edit_price_range">
                     </div>
                 </div>
                 <div class="px-6 py-4 flex justify-end space-x-3">
-                    <button type="button" onclick="closeEditModal()" class="px-5 py-2 rounded text-gray-700">
+                    <button type="button" onclick="closeEditModal()" class="btn-secondary">
                         Tutup
                     </button>
                     <button type="submit" class="btn-primary">
@@ -171,21 +190,31 @@
             });
         });
 
-        function openEditModal(id, code, name) {
-            document.getElementById('editForm').action = `/categories/${id}`;
-            document.getElementById('edit_code_category').value = code;
-            document.getElementById('edit_name_category').value = name;
-            document.getElementById('editModal').classList.remove('hidden');
+        function openEditModal(subCategory) {
+            const modal = document.getElementById('editModal');
+            const form = document.getElementById('editForm');
+            form.action = `/subcategories/${subCategory.id}`;
+            document.getElementById('edit_category_id').value = subCategory.category_id;
+            document.getElementById('edit_sub_category_name').value = subCategory.sub_category_name;
+            if (window.editCleave) {
+                window.editCleave.destroy();
+            }
+            window.editCleave = new Cleave('#edit_price_range_display', {
+                numeral: true,
+                numeralThousandsGroupStyle: 'thousand',
+                numeralDecimalScale: 0,
+                onValueChanged: function(e) {
+                    document.getElementById('edit_price_range').value = e.target.rawValue;
+                }
+            });
+            window.editCleave.setRawValue(subCategory.price_range);
+
+            modal.classList.remove('hidden');
         }
 
         function closeEditModal() {
             document.getElementById('editModal').classList.add('hidden');
         }
-        document.getElementById('editModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeEditModal();
-            }
-        });
 
         document.addEventListener('DOMContentLoaded', function() {
             new Cleave('#price_range_display', {
