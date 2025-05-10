@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUserManagementRequest;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use App\Service\UserManagementService;
-
+use Illuminate\Validation\ValidationException;
 class UserManagementController extends Controller
 {
     protected $userService;
@@ -21,6 +22,20 @@ class UserManagementController extends Controller
         $users = $this->userService->all($search);
         $roles = Role::all();
         return view('UserManagement.index', compact('users', 'roles'));
+    }
+
+    public function store(StoreUserManagementRequest $request)
+    {
+        $data = $request->validated();
+        try {
+            $this->userService->store($data);
+            return redirect()->route('users.index')
+                ->with('success', 'Akun Berhasil ditambahkan');
+        } catch (ValidationException $e) {
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput();
+        }
     }
 
     public function lock($id)
