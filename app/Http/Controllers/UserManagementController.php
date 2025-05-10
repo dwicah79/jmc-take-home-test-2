@@ -25,10 +25,10 @@ class UserManagementController extends Controller
     {
         try {
             $this->userService->lock($id);
-            return redirect()->route('user.index')
+            return back()
                 ->with('success', 'User berhasil dikunci');
         } catch (\Exception $e) {
-            return redirect()->route('user.index')
+            return back()
                 ->with('error', 'Gagal mengunci user: ' . $e->getMessage());
         }
     }
@@ -37,10 +37,10 @@ class UserManagementController extends Controller
     {
         try {
             $this->userService->unlock($id);
-            return redirect()->route('user.index')
+            return back()
                 ->with('success', 'User berhasil dibuka kuncinya');
         } catch (\Exception $e) {
-            return redirect()->route('user.index')
+            return back()
                 ->with('error', 'Gagal membuka kunci user: ' . $e->getMessage());
         }
     }
