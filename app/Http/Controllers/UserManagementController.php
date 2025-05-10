@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Service\UserManagementService;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use App\Service\UserManagementService;
 
 class UserManagementController extends Controller
 {
@@ -18,7 +19,8 @@ class UserManagementController extends Controller
     {
         $search = $request->input('search');
         $users = $this->userService->all($search);
-        return view('UserManagement.index', compact('users'));
+        $roles = Role::all();
+        return view('UserManagement.index', compact('users', 'roles'));
     }
 
     public function lock($id)
