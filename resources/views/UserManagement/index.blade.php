@@ -111,8 +111,7 @@
                                     </form>
                                 @endif
 
-                                <form method="POST" action="{{ route('categories.destroy', $user->id) }}"
-                                    class="delete-form">
+                                <form method="POST" action="{{ route('users.destroy', $user->id) }}" class="delete-form">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button"
