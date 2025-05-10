@@ -1,32 +1,29 @@
 <?php
 namespace App\Service;
 
+use App\Repository\UserRepository;
+
 class UserManagementService
 {
     protected $userRepository;
-    protected $roleRepository;
 
-    public function __construct($userRepository, $roleRepository)
+    public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
-        $this->roleRepository = $roleRepository;
     }
 
     public function all($search = null)
     {
         return $this->userRepository->all($search);
     }
-
     public function store(array $data)
     {
         return $this->userRepository->create($data);
     }
-
     public function update($id, array $data)
     {
         return $this->userRepository->update($id, $data);
     }
-
     public function destroy($id)
     {
         return $this->userRepository->delete($id);
