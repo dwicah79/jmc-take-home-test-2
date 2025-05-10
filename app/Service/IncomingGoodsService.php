@@ -1,7 +1,8 @@
 <?php
-namespace App\Services;
+namespace App\Service;
 use App\Repository\Interfaces\IncomingGoodsDetileRepositoryinterfaces;
-use App\Repository\Interfaces\IncomingGoodsRepositoryInterface;
+use App\Repository\Interfaces\IncomingGoodsRepositoryInterfaces;
+
 
 class IncomingGoodsService
 {
@@ -9,7 +10,7 @@ class IncomingGoodsService
     protected $detailRepo;
 
     public function __construct(
-        IncomingGoodsRepositoryInterface $goodsRepo,
+        IncomingGoodsRepositoryInterfaces $goodsRepo,
         IncomingGoodsDetileRepositoryinterfaces $detailRepo
     ) {
         $this->goodsRepo = $goodsRepo;

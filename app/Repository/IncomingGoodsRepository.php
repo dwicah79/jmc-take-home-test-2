@@ -2,9 +2,9 @@
 namespace App\Repository;
 
 use App\Models\IncomingGoods;
-use App\Repository\Interfaces\IncomingGoodsRepositoryInterface;
+use App\Repository\Interfaces\IncomingGoodsRepositoryInterfaces;
 
-class IncomingGoodsRepository implements IncomingGoodsRepositoryInterface
+class IncomingGoodsRepository implements IncomingGoodsRepositoryInterfaces
 {
     public function all($filters)
     {

@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Service\IncomingGoodsService;
 
 class IncomingGoodsController extends Controller
 {
+    protected $incomingGoodsService;
+    public function __construct(IncomingGoodsService $incomingGoodsService)
+    {
+        $this->incomingGoodsService = $incomingGoodsService;
+    }
     public function index()
     {
-        return view('IncomingGoods.index');
+        $filters = request()->all();
+        $incomingGoods = $this->incomingGoodsService->list($filters);
+        return $incomingGoods;
     }
 }

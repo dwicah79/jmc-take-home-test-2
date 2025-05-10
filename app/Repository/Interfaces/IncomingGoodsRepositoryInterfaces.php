@@ -1,7 +1,7 @@
 <?php
 namespace App\Repository\Interfaces;
 
-interface IncomingGoodsRepositoryInterface
+interface IncomingGoodsRepositoryInterfaces
 {
     public function all($filters);
     public function find($id);
