@@ -36,4 +36,16 @@ class SubCategoryController extends Controller
                 ->withInput();
         }
     }
+
+    public function destroy($id)
+    {
+        try {
+            $this->subCategoryService->destroy($id);
+            return redirect()->route('subcategories.index')
+                ->with('success', 'Subkategori berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect()->route('subcategories.index')
+                ->with('error', 'Gagal menghapus subkategori: ' . $e->getMessage());
+        }
+    }
 }
