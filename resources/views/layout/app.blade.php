@@ -137,7 +137,8 @@
                     </li>
                     @if (auth()->user()->hasRole('admin'))
                         <li>
-                            <a href="{{ route('users.index') }}" class="side-menu">
+                            <a href="{{ route('users.index') }}"
+                                class="{{ request()->is('user-management') ? 'side-menu-active' : 'side-menu' }}">
                                 <i class="fas fa-users-cog mr-3 sidebar-icon"></i>
                                 <span class="sidebar-text">Manajemen User</span>
                             </a>
