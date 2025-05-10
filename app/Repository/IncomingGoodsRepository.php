@@ -1,0 +1,58 @@
+<?php
+namespace App\Repository;
+
+use App\Models\IncomingGoods;
+use App\Repository\Interfaces\IncomingGoodsRepositoryInterface;
+
+class IncomingGoodsRepository implements IncomingGoodsRepositoryInterface
+{
+    public function all($filters)
+    {
+        $query = IncomingGoods::with(['category', 'subcategory', 'operator']);
+
+        if (!empty($filters['category_id'])) {
+            $query->where('category_id', $filters['category_id']);
+        }
+
+        if (!empty($filters['sub_category_id'])) {
+            $query->where('sub_category_id', $filters['sub_category_id']);
+        }
+
+        if (!empty($filters['year'])) {
+            $query->whereYear('date', $filters['year']);
+        }
+
+        if (!empty($filters['search'])) {
+            $query->where(function ($q) use ($filters) {
+                $q->where('origin_of_goods', 'like', "%{$filters['search']}%")
+                    ->orWhereHas('subcategory', function ($q2) use ($filters) {
+                        $q2->where('name', 'like', "%{$filters['search']}%");
+                    });
+            });
+        }
+
+        return $query->orderByDesc('date')->paginate(10);
+    }
+
+    public function find($id)
+    {
+        return IncomingGoods::with('barangDetails')->findOrFail($id);
+    }
+
+    public function create(array $data)
+    {
+        return IncomingGoods::create($data);
+    }
+
+    public function update($id, array $data)
+    {
+        $model = IncomingGoods::findOrFail($id);
+        $model->update($data);
+        return $model;
+    }
+
+    public function delete($id)
+    {
+        return IncomingGoods::destroy($id);
+    }
+}
