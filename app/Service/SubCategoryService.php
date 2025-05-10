@@ -12,9 +12,9 @@ class SubCategoryService
         $this->subCategoryRepository = $subCategoryRepository;
     }
 
-    public function getAll()
+    public function getAll($search = null)
     {
-        return $this->subCategoryRepository->all();
+        return $this->subCategoryRepository->all($search);
     }
 
     public function store(array $data)
