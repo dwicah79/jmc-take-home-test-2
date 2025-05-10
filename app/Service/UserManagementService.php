@@ -28,4 +28,13 @@ class UserManagementService
     {
         return $this->userRepository->delete($id);
     }
+
+    public function lock($id)
+    {
+        return $this->userRepository->lock($id);
+    }
+    public function unlock($id)
+    {
+        return $this->userRepository->unlock($id);
+    }
 }
