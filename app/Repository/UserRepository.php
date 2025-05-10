@@ -7,9 +7,18 @@ use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements UserRepositoryInterfaces
 {
-    public function all()
+    public function all($search = null)
     {
-        return User::paginate(10);
+        $query = User::with('role')->orderBy('id', 'desc');
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('username', 'like', "%$search%")
+                    ->orWhere('name', 'like', "%$search%");
+            });
+        }
+
+        return $query->paginate(10);
     }
 
     public function find($id)
