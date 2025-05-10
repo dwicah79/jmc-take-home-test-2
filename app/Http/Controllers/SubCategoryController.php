@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreSubCategoryRequest;
+use App\Http\Requests\UpdateSubCategoryRequest;
 use App\Models\Category;
 use App\Service\SubCategoryService;
 use Illuminate\Http\Request;
@@ -30,6 +31,20 @@ class SubCategoryController extends Controller
             $this->subCategoryService->store($data);
             return redirect()->route('subcategories.index')
                 ->with('success', 'Subkategori berhasil ditambahkan');
+        } catch (ValidationException $e) {
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput();
+        }
+    }
+
+    public function update(UpdateSubCategoryRequest $request, $id)
+    {
+        $data = $request->validated();
+        try {
+            $this->subCategoryService->update($id, $data);
+            return redirect()->route('subcategories.index')
+                ->with('success', 'Subkategori berhasil diperbarui');
         } catch (ValidationException $e) {
             return redirect()->back()
                 ->withErrors($e->validator)
