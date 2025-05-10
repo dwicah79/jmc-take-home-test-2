@@ -26,7 +26,7 @@
             <div class="flex justify-between items-center mb-4 p-2 md:p-0">
                 <x-modal-form triggerClass="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
                     triggerText="+ Tambah Data" title="Form Kategori" id="createModal">
-                    <form method="POST" action="{{ route('categories.store') }}">
+                    <form method="POST" action="{{ route('users.store') }}">
                         @csrf
                         <div class="mb-4">
                             <label for="role" class="block text-sm font-semibold text-gray-700 mb-2">Role</label>
