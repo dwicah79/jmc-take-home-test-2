@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\IncomingGoodsController;
 
 Route::middleware('guest')->group(function () {
@@ -30,5 +31,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
         Route::put('/{category}', [CategoryController::class, 'update'])->name('categories.update');
         Route::delete('/{category}', [CategoryController::class, 'destroy'])->name('categories.destroy');
+    });
+
+    Route::prefix('subcategories')->group(function () {
+        Route::get('/', [SubCategoryController::class, 'index'])->name('subcategories.index');
+        Route::post('/store', [SubCategoryController::class, 'store'])->name('subcategories.store');
+        Route::get('/{id}/edit', [SubCategoryController::class, 'edit'])->name('subcategories.edit');
+        Route::put('/{subcategory}', [SubCategoryController::class, 'update'])->name('subcategories.update');
+        Route::delete('/{subcategory}', [SubCategoryController::class, 'destroy'])->name('subcategories.destroy');
     });
 });
