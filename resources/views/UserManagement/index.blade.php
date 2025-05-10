@@ -53,7 +53,7 @@
                             <div class="inline-flex space-x-4">
                                 <button type="button"
                                     onclick="openEditModal('{{ $user->id }}', '{{ $user->code_category }}', '{{ $user->name_category }}')"
-                                    class="text-blue-600 hover:underline hover:cursor-pointer">
+                                    class="text-blue-500 hover:text-blue-700 hover:cursor-pointer">
                                     <i class="fa-solid fa-pencil"></i>
                                 </button>
 
@@ -62,7 +62,7 @@
                                         @csrf
                                         @method('PUT')
                                         <button type="button"
-                                            class="text-green-600 hover:underline delete-btn hover:cursor-pointer">
+                                            class="text-green-600 hover:text-green-700 delete-btn hover:cursor-pointer">
                                             <i class="fa-solid fa-lock"></i>
                                         </button>
                                     </form>
@@ -71,7 +71,7 @@
                                         @csrf
                                         @method('PUT')
                                         <button type="button"
-                                            class="text-red-600 hover:underline delete-btn hover:cursor-pointer">
+                                            class="text-red-600 hover:text-red-700 delete-btn hover:cursor-pointer">
                                             <i class="fa-solid fa-unlock"></i>
                                         </button>
                                     </form>
@@ -82,7 +82,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="button"
-                                        class="text-red-600 hover:underline delete-btn hover:cursor-pointer">
+                                        class="text-red-600 hover:text-red-700 delete-btn hover:cursor-pointer">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </button>
                                 </form>
