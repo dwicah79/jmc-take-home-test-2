@@ -9,7 +9,7 @@ class UserRepository implements UserRepositoryInterfaces
 {
     public function all($search = null)
     {
-        $query = User::with('role')->orderBy('id', 'desc');
+        $query = User::with('roles')->orderBy('id', 'desc');
 
         if ($search) {
             $query->where(function ($q) use ($search) {
