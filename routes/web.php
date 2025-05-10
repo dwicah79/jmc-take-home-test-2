@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserManagementController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
@@ -39,5 +40,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/edit', [SubCategoryController::class, 'edit'])->name('subcategories.edit');
         Route::put('/{subcategory}', [SubCategoryController::class, 'update'])->name('subcategories.update');
         Route::delete('/{subcategory}', [SubCategoryController::class, 'destroy'])->name('subcategories.destroy');
+    });
+});
+
+Route::middleware('auth', 'role:admin')->group(function () {
+    Route::prefix('user-management')->group(function () {
+        Route::get('/', [UserManagementController::class, 'index'])->name('users.index');
+        Route::post('/store', [UserManagementController::class, 'store'])->name('users.store');
+        Route::get('/{id}/edit', [UserManagementController::class, 'edit'])->name('users.edit');
+        Route::put('/{user}', [UserManagementController::class, 'update'])->name('users.update');
+        Route::delete('/{user}', [UserManagementController::class, 'destroy'])->name('users.destroy');
     });
 });
