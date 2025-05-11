@@ -72,4 +72,16 @@ class IncomingGoodsController extends Controller
         }
     }
 
+    public function destroy($id)
+    {
+        try {
+            $this->incomingGoodsService->destroy($id);
+            return redirect()->route('incoming-goods.index')
+                ->with('success', 'Barang masuk berhasil dihapus');
+        } catch (\Exception $e) {
+            return redirect()->route('incoming-goods.index')
+                ->with('error', 'Gagal menghapus barang masuk: ' . $e->getMessage());
+        }
+    }
+
 }
