@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Service\IncomingGoodsService;
 
 class IncomingGoodsController extends Controller
@@ -15,12 +16,14 @@ class IncomingGoodsController extends Controller
     {
         $filters = request()->all();
         $incomingGoods = $this->incomingGoodsService->list($filters);
-        // return $incomingGoods;
         return view('IncomingGoods.index', compact('incomingGoods'));
     }
 
     public function create()
     {
-        return view('IncomingGoods.create');
+        $users = User::whereHas('roles', function ($query) {
+            $query->where('name', 'operator');
+        })->get();
+        return view('IncomingGoods.create', compact('users'));
     }
 }
