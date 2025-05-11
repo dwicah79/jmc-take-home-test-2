@@ -12,12 +12,27 @@ class IncomingGoodsSeeder extends Seeder
     {
         IncomingGoodsDetile::query()->delete();
         IncomingGoods::query()->delete();
-
-
         $ptList = [
             'PT. Maju Bersama',
             'PT. Cahaya Abadi',
-            'PT. Sejahtera Sentosa'
+            'PT. Sejahtera Sentosa',
+            'PT. Global Mandiri',
+            'PT. Bintang Jaya',
+            'PT. Sinar Mas',
+            'PT. Adi Karya',
+            'PT. Bumi Laut',
+            'PT. Cipta Karya',
+            'PT. Duta Makmur',
+            'PT. Era Baru',
+            'PT. Fajar Sejahtera',
+            'PT. Graha Indah',
+            'PT. Harapan Jaya',
+            'PT. Inti Makmur',
+            'PT. Jaya Abadi',
+            'PT. Kencana Mulia',
+            'PT. Lestari Sentosa',
+            'PT. Mitra Usaha',
+            'PT. Nusantara Jaya'
         ];
 
         $kategoriId = 1;
@@ -37,11 +52,8 @@ class IncomingGoodsSeeder extends Seeder
             ]);
 
             $details = [];
-
-            $itemCount = rand(2, 3);
             $total = 0;
-
-            for ($i = 1; $i <= $itemCount; $i++) {
+            for ($i = 1; $i <= 2; $i++) {
                 $harga = rand(10000, 50000);
                 $jumlah = rand(1, 5);
                 $totalItem = $harga * $jumlah;
