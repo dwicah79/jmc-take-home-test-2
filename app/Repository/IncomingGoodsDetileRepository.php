@@ -16,4 +16,9 @@ class IncomingGoodsDetileRepository implements IncomingGoodsDetileRepositoryinte
     {
         return IncomingGoodsDetile::where('incoming_goods_id', $incomingGoodsId)->delete();
     }
+
+    public function verified($id, $data)
+    {
+        return IncomingGoodsDetile::where('id', $id)->update(['status' => $data ? 1 : 0]);
+    }
 }
