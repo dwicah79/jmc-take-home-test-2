@@ -8,7 +8,7 @@ class IncomingGoodsRepository implements IncomingGoodsRepositoryInterfaces
 {
     public function all($filters)
     {
-        $query = IncomingGoods::with(['category', 'subcategory', 'operator']);
+        $query = IncomingGoods::with(['category', 'subcategory', 'operator', 'goodsDetail']);
 
         if (!empty($filters['category_id'])) {
             $query->where('category_id', $filters['category_id']);

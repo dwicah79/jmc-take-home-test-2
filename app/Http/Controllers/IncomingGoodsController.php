@@ -15,6 +15,7 @@ class IncomingGoodsController extends Controller
     {
         $filters = request()->all();
         $incomingGoods = $this->incomingGoodsService->list($filters);
-        return $incomingGoods;
+        // return $incomingGoods;
+        return view('IncomingGoods.index', compact('incomingGoods'));
     }
 }

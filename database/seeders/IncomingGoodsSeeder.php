@@ -29,6 +29,7 @@ class IncomingGoodsSeeder extends Seeder
                 'category_id' => $kategoriId,
                 'sub_category_id' => $subKategoriId,
                 'origin_of_goods' => $pt,
+                'unit' => 'Gudang Utama',
                 'number_document' => 'SM-' . rand(1000, 9999),
                 'attachment' => null,
                 'total_price' => 0,
