@@ -18,4 +18,9 @@ class IncomingGoodsController extends Controller
         // return $incomingGoods;
         return view('IncomingGoods.index', compact('incomingGoods'));
     }
+
+    public function create()
+    {
+        return view('IncomingGoods.create');
+    }
 }
