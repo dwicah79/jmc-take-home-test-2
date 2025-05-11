@@ -18,26 +18,8 @@
             @enderror
 
             <div class="flex justify-between items-center mb-4 p-2 md:p-0">
-                <x-modal-form triggerClass="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                    triggerText="+ Tambah Data" title="Form Kategori" id="createModal">
-                    <form method="POST" action="{{ route('incoming-goods.store') }}">
-                        @csrf
-                        <div class="mb-4">
-                            <x-input name="code_category" label="Kode Kategori" required />
-                        </div>
-                        <div class="mb-4">
-                            <x-input name="name_category" label="Nama Kategori" required />
-                        </div>
-                        <div class="px-6 py-4 flex justify-end space-x-3">
-                            <button @click="open = false" type="button" class="btn-secondary">
-                                Tutup
-                            </button>
-                            <button type="submit" class="btn-primary">
-                                Simpan
-                            </button>
-                        </div>
-                    </form>
-                </x-modal-form>
+                <a href="{{ route('incoming-goods.create') }}"
+                    class="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-700">Tambah Data</a>
                 <div class="w-1/2 flex justify-end">
                     <x-search-component />
                 </div>
