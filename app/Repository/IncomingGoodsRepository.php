@@ -1,7 +1,11 @@
 <?php
 namespace App\Repository;
 
+use App\Models\User;
+use App\Models\Category;
 use App\Models\IncomingGoods;
+use App\Models\SubCategory;
+use Illuminate\Support\Facades\DB;
 use App\Repository\Interfaces\IncomingGoodsRepositoryInterfaces;
 
 class IncomingGoodsRepository implements IncomingGoodsRepositoryInterfaces
@@ -54,5 +58,29 @@ class IncomingGoodsRepository implements IncomingGoodsRepositoryInterfaces
     public function delete($id)
     {
         return IncomingGoods::destroy($id);
+    }
+
+    public function getOperator()
+    {
+        return User::whereHas('roles', function ($query) {
+            $query->where('name', 'operator');
+        })->get();
+    }
+
+    public function getCategory()
+    {
+        return Category::all();
+    }
+
+    public function getSubCategory($categoryId)
+    {
+        return DB::table('sub_categories')
+            ->where('category_id', $categoryId)
+            ->select('id', 'sub_category_name', 'price_range')
+            ->get()
+            ->map(function ($item) {
+                $item->price_range = (float) $item->price_range; // Pastikan numeric
+                return $item;
+            });
     }
 }
