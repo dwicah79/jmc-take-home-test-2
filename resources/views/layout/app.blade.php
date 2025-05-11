@@ -14,6 +14,7 @@
     <style>
         #sidebar {
             width: 17rem;
+            transition: all 0.3s ease-in-out;
         }
 
         #sidebar.collapsed {
@@ -33,7 +34,8 @@
         }
 
         #main-content {
-            margin-left: 16rem;
+            margin-left: 17rem;
+            transition: all 0.3s ease-in-out;
         }
 
         #main-content.sidebar-collapsed {
@@ -46,7 +48,7 @@
                 position: fixed;
                 z-index: 40;
                 height: 100vh;
-                transition: transform 0.3s ease-in-out;
+                width: 17rem !important;
             }
 
             #sidebar.mobile-open {
@@ -55,6 +57,7 @@
 
             #main-content {
                 margin-left: 0 !important;
+                width: 100%;
             }
 
             .overlay {
@@ -71,6 +74,38 @@
             .overlay.active {
                 display: block;
             }
+
+            header {
+                padding: 0.75rem 1rem;
+            }
+
+            main {
+                padding: 1rem;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            #sidebar {
+                width: 14rem;
+            }
+
+            #sidebar.collapsed {
+                width: 5rem !important;
+            }
+
+            #main-content {
+                margin-left: 14rem;
+            }
+
+            #main-content.sidebar-collapsed {
+                margin-left: 5rem !important;
+            }
+        }
+
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
         }
     </style>
 </head>
@@ -78,11 +113,10 @@
 <body class="bg-gray-100 text-gray-800">
     <div class="flex min-h-screen">
         <div id="mobile-overlay" class="overlay"></div>
-        <aside id="sidebar"
-            class="bg-primary text-white flex flex-col transition-all duration-300 ease-in-out fixed h-full top-0 left-0 z-30">
+        <aside id="sidebar" class="bg-primary text-white flex flex-col fixed h-full top-0 left-0 z-30">
             <div class="relative">
                 <button id="sidebar-toggle" title="Toggle Sidebar"
-                    class="hidden absolute md:flex hover:cursor-pointer -right-3 top-5 z-100 bg-white rounded-full w-6 h-6  items-center justify-center shadow-sm hover:bg-gray-100 transition-all">
+                    class="hidden absolute md:flex hover:cursor-pointer -right-3 top-5 z-100 bg-white rounded-full w-6 h-6 items-center justify-center shadow-sm hover:bg-gray-100 transition-all">
                     <i id="toggle-icon" class="fas fa-times text-xs text-gray-800"></i>
                 </button>
             </div>
@@ -148,8 +182,8 @@
             </nav>
         </aside>
 
-        <div id="main-content" class="flex-1 flex flex-col transition-all duration-300 ease-in-out">
-            <header class="bg-white px-6 py-4 shadow flex justify-between items-center">
+        <div id="main-content" class="flex-1 flex flex-col">
+            <header class="bg-white px-4 sm:px-6 py-3 sm:py-4 shadow flex justify-between items-center">
                 <div class="flex items-center gap-4">
                     <button id="mobile-sidebar-toggle" class="md:hidden text-gray-600 hover:cursor-pointer">
                         <i class="fas fa-bars"></i>
@@ -184,7 +218,7 @@
                 </div>
             </header>
 
-            <main class="p-4 md:p-6 bg-gray-200 flex-1 overflow-x-auto">
+            <main class="p-4 sm:p-6 bg-gray-200 flex-1">
                 @if (session('error'))
                     <x-alert type="error" message="{{ session('error') }}" />
                 @endif
@@ -202,7 +236,7 @@
             const sidebar = document.getElementById('sidebar');
             const mainContent = document.getElementById('main-content');
             const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
-            const isMobile = window.matchMedia('(max-width: 768px)').matches;
+            let isMobile = window.innerWidth <= 768;
 
             function setSidebarState(collapsed) {
                 if (isMobile) {
@@ -226,12 +260,22 @@
             function toggleMobileSidebar() {
                 sidebar.classList.toggle('mobile-open');
                 mobileOverlay.classList.toggle('active');
-                toggleIcon.classList.remove('fa-times');
                 document.body.classList.toggle('overflow-hidden');
             }
-            if (!isMobile) {
-                setSidebarState(isCollapsed);
+
+            function checkScreenSize() {
+                isMobile = window.innerWidth <= 768;
+                if (isMobile) {
+                    sidebar.classList.remove('collapsed');
+                    sidebar.classList.remove('mobile-open');
+                    mobileOverlay.classList.remove('active');
+                    mainContent.classList.remove('sidebar-collapsed');
+                } else {
+                    const collapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+                    setSidebarState(collapsed);
+                }
             }
+            checkScreenSize();
             toggleBtn.addEventListener('click', function() {
                 if (isMobile) {
                     toggleMobileSidebar();
@@ -240,15 +284,16 @@
                     setSidebarState(!currentlyCollapsed);
                 }
             });
+
             mobileToggleBtn.addEventListener('click', function() {
                 toggleMobileSidebar();
             });
+
             mobileOverlay.addEventListener('click', function() {
                 toggleMobileSidebar();
             });
             const dropdownToggle = document.getElementById('dropdown-toggle');
             const dropdownMenu = document.getElementById('dropdown-menu');
-
             document.addEventListener('click', function(e) {
                 if (dropdownToggle.contains(e.target)) {
                     dropdownMenu.classList.toggle('hidden');
@@ -265,18 +310,7 @@
                 });
             });
             window.addEventListener('resize', function() {
-                const isNowMobile = window.matchMedia('(max-width: 768px)').matches;
-
-                if (isNowMobile !== isMobile) {
-                    if (isNowMobile) {
-                        sidebar.classList.remove('collapsed');
-                        sidebar.classList.remove('mobile-open');
-                        mobileOverlay.classList.remove('active');
-                    } else {
-                        const collapsed = localStorage.getItem('sidebarCollapsed') === 'true';
-                        setSidebarState(collapsed);
-                    }
-                }
+                checkScreenSize();
             });
         });
     </script>
