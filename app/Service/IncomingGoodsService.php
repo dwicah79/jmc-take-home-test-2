@@ -93,4 +93,9 @@ class IncomingGoodsService
     {
         return $this->goodsRepo->getSubCategory($categoryId);
     }
+
+    public function verified($id, $data)
+    {
+        return $this->detailRepo->verified($id, $data);
+    }
 }
