@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Category;
+use Illuminate\Http\Request;
 use App\Service\IncomingGoodsService;
 
 class IncomingGoodsController extends Controller
@@ -21,9 +23,26 @@ class IncomingGoodsController extends Controller
 
     public function create()
     {
-        $users = User::whereHas('roles', function ($query) {
-            $query->where('name', 'operator');
-        })->get();
-        return view('IncomingGoods.create', compact('users'));
+        $users = $this->incomingGoodsService->getOperator();
+        $categories = $this->incomingGoodsService->getCategory();
+        $subcategories = collect();
+
+        if (old('category_id')) {
+            $subcategories = $this->incomingGoodsService->getSubCategory(old('category_id'));
+        }
+
+        return view('IncomingGoods.create', compact('users', 'categories', 'subcategories'));
+    }
+
+    public function getSubcategories(Request $request)
+    {
+        $categoryId = $request->category_id;
+        $subcategories = [];
+
+        if ($categoryId) {
+            $subcategories = $this->incomingGoodsService->getSubCategory($categoryId);
+        }
+
+        return response()->json($subcategories);
     }
 }
