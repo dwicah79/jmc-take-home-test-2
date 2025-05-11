@@ -46,4 +46,17 @@ class IncomingGoodsService
         $this->detailRepo->deleteByincomingGoodsId($id);
         $this->goodsRepo->delete($id);
     }
+
+    public function getOperator()
+    {
+        return $this->goodsRepo->getOperator();
+    }
+    public function getCategory()
+    {
+        return $this->goodsRepo->getCategory();
+    }
+    public function getSubCategory($categoryId)
+    {
+        return $this->goodsRepo->getSubCategory($categoryId);
+    }
 }
