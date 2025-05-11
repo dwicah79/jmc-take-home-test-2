@@ -96,9 +96,15 @@
                             </td>
                             <td class="px-4 py-2 font-semibold text-center">
                                 @if ($detail->status == 0)
-                                    <i class="fa-regular fa-circle-xmark"></i>
-                                @else
-                                    <i class="fa-solid fa-circle-check text-green-600"></i>
+                                    <form id="verifyForm-{{ $detail->id }}"
+                                        action="{{ route('incoming-goods.verified', $detail->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="button" onclick="confirmVerified('{{ $detail->id }}')"
+                                            class="hover:text-red-400 cursor-pointer">
+                                            <i class="fa-regular fa-circle-xmark"></i>
+                                        </button>
+                                </form @else <i class="fa-solid fa-circle-check text-green-600"></i>
                                 @endif
                             </td>
                         </tr>
@@ -172,6 +178,25 @@
                 });
             });
         });
+
+        function confirmVerified(id) {
+            const form = document.getElementById(`verifyForm-${id}`);
+
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Data ini akan diverifikasi!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, verifikasi!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        }
 
         function openEditModal(id, code, name) {
             document.getElementById('editForm').action = `/categories/${id}`;
