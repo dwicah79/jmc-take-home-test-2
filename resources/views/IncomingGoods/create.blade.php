@@ -9,10 +9,29 @@
                 <div class="flex flex-col md:flex-row md:flex-wrap gap-4">
                     <div class="w-full">
                         <div class="form-group w-full md:w-1/4">
-                            <label class="block text-gray-700 mb-2">Operator</label>
-                            <select class="w-full px-4 py-2 border rounded-lg">
-                                <option value="Budi">Budi</option>
-                            </select>
+                            <label for="operator_id" class="block text-sm font-semibold text-gray-700 mb-2">Operator</label>
+                            <div class="relative">
+                                <select name="operator_id" id="operator_id"
+                                    class="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                    @if (auth()->user()->hasRole('operator')) disabled @endif>
+                                    <option value="">Pilih Operator</option>
+                                    @foreach ($users as $item)
+                                        <option value="{{ $item->id }}"
+                                            @if (old('operator_id') == $item->id || (auth()->user()->hasRole('operator') && auth()->id() == $item->id)) selected @endif>
+                                            {{ $item->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @if (auth()->user()->hasRole('operator'))
+                                    <input type="hidden" name="operator_id" value="{{ auth()->id() }}">
+                                @endif
+                                <div
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-600">
+                                    <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                                        <path d="M7 7l3-3 3 3H7zm0 6l3 3 3-3H7z" />
+                                    </svg>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
