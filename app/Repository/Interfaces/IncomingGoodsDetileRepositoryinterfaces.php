@@ -3,6 +3,6 @@ namespace App\Repository\Interfaces;
 
 interface IncomingGoodsDetileRepositoryinterfaces
 {
-    public function createMany($incomingGoodsId, array $details);
+    public function insert(array $items);
     public function deleteByincomingGoodsId($incomingGoodsId);
 }

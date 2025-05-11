@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
 use App\Models\User;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Service\IncomingGoodsService;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\IncomingGoodsRequest;
+use Illuminate\Validation\ValidationException;
+
 
 class IncomingGoodsController extends Controller
 {
@@ -45,4 +50,26 @@ class IncomingGoodsController extends Controller
 
         return response()->json($subcategories);
     }
+
+    public function store(IncomingGoodsRequest $request)
+    {
+        try {
+            $validated = $request->validated();
+            $items = $validated['items'];
+            unset($validated['items']);
+            $incomingGoods = $this->incomingGoodsService->create(
+                $validated,
+                $items,
+                $request->file('attachment')
+            );
+            return redirect()->route('incoming-goods.index')
+                ->with('success', 'Barang masuk berhasil ditambahkan');
+        } catch (ValidationException $e) {
+            Log::error('Validasi gagal:', $e->validator->errors()->toArray());
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput();
+        }
+    }
+
 }

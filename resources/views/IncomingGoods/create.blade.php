@@ -1,30 +1,32 @@
 @extends('layout.app')
 @section('content')
     <x-breadcrumb :items="[['label' => 'Tambah Data', 'url' => '#']]" />
-
     <div class="bg-white rounded-lg shadow-md p-6 w-full overflow-hidden">
-        <form id="incomingGoodsForm">
+        <form id="incomingGoodsForm" method="POST" action="{{ route('incoming-goods.store') }}" enctype="multipart/form-data">
+            @csrf
             <div class="mb-8">
                 <h3 class="text-lg font-medium mb-4 border-b pb-2">INFORMASI UMUM</h3>
                 <div class="flex flex-col md:flex-row md:flex-wrap gap-4">
                     <div class="w-full">
                         <div class="form-group w-full md:w-1/4">
-                            <label for="operator_id" class="block text-sm font-semibold text-gray-700 mb-2">Operator</label>
+                            <label for="user_id" class="block text-sm font-semibold text-gray-700 mb-2">Operator</label>
                             <div class="relative">
-                                <select name="operator_id" id="operator_id"
+                                <select name="user_id" id="user_id" required
                                     class="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                     @if (auth()->user()->hasRole('operator')) disabled @endif>
                                     <option value="">Pilih Operator</option>
                                     @foreach ($users as $item)
                                         <option value="{{ $item->id }}"
-                                            @if (old('operator_id') == $item->id || (auth()->user()->hasRole('operator') && auth()->id() == $item->id)) selected @endif>
+                                            @if (old('user_id') == $item->id || (auth()->user()->hasRole('operator') && auth()->id() == $item->id)) selected @endif>
                                             {{ $item->name }}
                                         </option>
                                     @endforeach
                                 </select>
+
                                 @if (auth()->user()->hasRole('operator'))
-                                    <input type="hidden" name="operator_id" value="{{ auth()->id() }}">
+                                    <input type="hidden" name="user_id" value="{{ auth()->id() }}">
                                 @endif
+
                                 <div
                                     class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-600">
                                     <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
@@ -33,13 +35,14 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
                     <div class="w-full">
                         <div class="form-group w-full md:w-1/4">
                             <label for="category_id" class="block text-sm font-semibold text-gray-700 mb-2">Kategori</label>
                             <div class="relative">
-                                <select name="category_id" id="category_id"
+                                <select name="category_id" id="category_id" required
                                     class="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                                     <option value="">Pilih Kategori</option>
                                     @foreach ($categories as $item)
@@ -61,12 +64,12 @@
 
                     <div class="w-full flex flex-col md:flex-wrap md:flex-row gap-4">
                         <div class="form-group w-full md:w-1/4">
-                            <label for="subcategory_id" class="block text-sm font-semibold text-gray-700 mb-2">Sub
+                            <label for="sub_category_id" class="block text-sm font-semibold text-gray-700 mb-2">Sub
                                 Kategori</label>
                             <div class="relative">
-                                <select name="subcategory_id" id="subcategory_id"
+                                <select name="sub_category_id" id="subcategory_id"
                                     class="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                                    <option value="">Pilih Sub Kategori</option>
+                                    <option value="" required>Pilih Sub Kategori</option>
                                     @if (old('category_id'))
                                         @foreach ($subcategories as $item)
                                             <option value="{{ $item->id }}"
@@ -87,25 +90,25 @@
 
                         <div class="form-group w-full md:w-1/4">
                             <label for="price_limit" class="block text-gray-700 mb-2">Batas Harga</label>
-                            <input type="text" id="price_limit" name="price_limit"
-                                class="w-full px-4 py-2 border rounded-lg" disabled value="{{ old('price_range', '0') }}">
+                            <input type="text" id="price_limit" name="price_range" required
+                                class="w-full px-4 py-2 border rounded-lg" readonly value="{{ old('price_range', '0') }}">
                         </div>
                     </div>
 
                     <div class="w-full md:w-1/2">
                         <label class="block text-gray-700 mb-2">Asal Barang</label>
-                        <input type="text" class="w-full px-4 py-2 border rounded-lg">
+                        <input type="text" name="origin_of_goods" class="w-full px-4 py-2 border rounded-lg" required>
                     </div>
                     <div class="w-full flex flex-col md:flex-wrap md:flex-row gap-4">
                         <div class="form-group w-full md:w-1/4">
                             <label class="block text-gray-700 mb-2">Nomor Surat</label>
-                            <input type="text" class="w-full px-4 py-2 border rounded-lg">
+                            <input type="text" name="number_document" class="w-full px-4 py-2 border rounded-lg">
                         </div>
 
                         <div class="form-group w-full md:w-1/4">
                             <label class="block text-gray-700 mb-2">Lampiran</label>
                             <div class="border rounded-lg p-2">
-                                <input type="file" id="attachment" class="hidden">
+                                <input type="file" id="attachment" name="attachment" class="hidden">
                                 <label for="attachment" class="cursor-pointer">
                                     <div class="flex items-center">
                                         <span class="bg-gray-100 px-3  rounded-l border-r">Choose File</span>
@@ -131,24 +134,28 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
                                 <div class="form-group">
                                     <label class="block text-gray-700 mb-2 text-sm">Nama Barang</label>
-                                    <input type="text" class="w-full px-3 py-2 border rounded">
+                                    <input type="text" class="w-full px-3 py-2 border rounded" name="items[0][name]"
+                                        required>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="block text-gray-700 mb-2 text-sm">Harga (Rp.)</label>
                                     <div class="flex items-center flex-col">
-                                        <input type="text" class="w-full px-3 py-2 border rounded price-input">
+                                        <input type="text" class="w-full px-3 py-2 border rounded price-input"
+                                            name="items[0][price]" required>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="block text-gray-700 mb-2 text-sm">Jumlah</label>
-                                    <input type="number" class="w-full px-3 py-2 border rounded quantity-input">
+                                    <input type="number" class="w-full px-3 py-2 border rounded quantity-input"
+                                        name="items[0][volume]" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="block text-gray-700 mb-2 text-sm">Satuan</label>
-                                    <input type="text" class="w-full px-3 py-2 border rounded ">
+                                    <input type="text" class="w-full px-3 py-2 border rounded " name="items[0][unit]"
+                                        required>
                                 </div>
 
                                 <div class="form-group">
@@ -156,13 +163,14 @@
                                     <div class="flex items-center">
                                         <span class="mr-1">Rp.</span>
                                         <input type="text" class="w-full px-3 py-2 border rounded total-input"
-                                            readonly>
+                                            name="items[0][total_price]" readonly>
                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label class="block text-gray-700 mb-2 text-sm">Tgl. Expired</label>
-                                    <input type="date" class="w-full px-3 py-2 border rounded">
+                                    <input type="date" class="w-full px-3 py-2 border rounded"
+                                        name="items[0][expired_date]" required>
                                 </div>
                             </div>
                             <div class="mt-3 flex justify-end">
@@ -197,50 +205,44 @@
             let isPriceExceeded = false;
 
             function addNewItem() {
+                const itemCount = document.querySelectorAll('#itemRows > div').length;
+                const newIndex = itemCount; // Mulai dari 0
+
                 const newItem = `
-            <div class="border rounded-lg p-4 bg-gray-50">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
-                    <div class="form-group">
-                        <label class="block text-gray-700 mb-2 text-sm">Nama Barang</label>
-                        <input type="text" class="w-full px-3 py-2 border rounded">
-                    </div>
-                    <div class="form-group">
-                        <label class="block text-gray-700 mb-2 text-sm">Harga (Rp.)</label>
-                        <div class="flex items-center flex-col">
-                            <input type="text" class="w-full px-3 py-2 border rounded price-input">
+                    <div class="border rounded-lg p-4 bg-gray-50">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4">
+                            <div class="form-group">
+                                <label class="block text-gray-700 mb-2 text-sm">Nama Barang</label>
+                                <input type="text" class="w-full px-3 py-2 border rounded" name="items[${newIndex}][name]" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="block text-gray-700 mb-2 text-sm">Harga (Rp.)</label>
+                                <input type="text" class="w-full px-3 py-2 border rounded price-input" name="items[${newIndex}][price]" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="block text-gray-700 mb-2 text-sm">Jumlah</label>
+                                <input type="number" class="w-full px-3 py-2 border rounded quantity-input" name="items[${newIndex}][volume]" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="block text-gray-700 mb-2 text-sm">Satuan</label>
+                                <input type="text" class="w-full px-3 py-2 border rounded" name="items[${newIndex}][unit]" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="block text-gray-700 mb-2 text-sm">Total</label>
+                                <input type="text" class="w-full px-3 py-2 border rounded total-input" name="items[${newIndex}][total_price]" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label class="block text-gray-700 mb-2 text-sm">Tgl. Expired</label>
+                                <input type="date" class="w-full px-3 py-2 border rounded" name="items[${newIndex}][expired_date]">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="block text-gray-700 mb-2 text-sm">Jumlah</label>
-                        <input type="number" class="w-full px-3 py-2 border rounded quantity-input">
-                    </div>
-                    <div class="form-group">
-                        <label class="block text-gray-700 mb-2 text-sm">Satuan</label>
-                        <select class="w-full px-3 py-2 border rounded">
-                            <option value="Buah">Buah</option>
-                            <option value="Lusin">Lusin</option>
-                            <option value="Box">Box</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="block text-gray-700 mb-2 text-sm">Total</label>
-                        <div class="flex items-center">
-                            <span class="mr-1">Rp.</span>
-                            <input type="text" class="w-full px-3 py-2 border rounded total-input" readonly>
+                        <div class="mt-3 flex justify-end">
+                            <button type="button" class="text-red-500 hover:text-red-700 remove-item">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="block text-gray-700 mb-2 text-sm">Tgl. Expired</label>
-                        <input type="date" class="w-full px-3 py-2 border rounded">
-                    </div>
-                </div>
-                <div class="mt-3 flex justify-end">
-                    <button type="button" class="text-red-500 hover:text-red-700 remove-item">
-                        <i class="fas fa-trash"></i> Hapus
-                    </button>
-                </div>
-            </div>
-        `;
+                    </div>`;
+
                 document.getElementById('itemRows').insertAdjacentHTML('beforeend', newItem);
                 validatePriceLimit();
             }

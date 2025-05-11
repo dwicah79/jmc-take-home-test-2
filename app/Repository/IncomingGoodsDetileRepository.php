@@ -6,13 +6,11 @@ use App\Repository\Interfaces\IncomingGoodsDetileRepositoryinterfaces;
 
 class IncomingGoodsDetileRepository implements IncomingGoodsDetileRepositoryinterfaces
 {
-    public function createMany($incomingGoodsId, array $details)
+    public function insert(array $items)
     {
-        foreach ($details as &$detail) {
-            $detail['incoming_goods_id'] = $incomingGoodsId;
-        }
-        return IncomingGoodsDetile::insert($details);
+        return IncomingGoodsDetile::insert($items);
     }
+
 
     public function deleteByincomingGoodsId($incomingGoodsId)
     {
