@@ -176,14 +176,14 @@
 
 
                 <div class="flex justify-start space-x-4">
-                    <button type="button"
+                    <a href="/incoming-goods"
                         class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
                         Kembali
-                    </button>
+                    </a>
                     <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
                         Simpan
                     </button>
