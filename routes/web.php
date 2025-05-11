@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('incoming-goods')->group(function () {
         Route::get('/', [IncomingGoodsController::class, 'index'])->name('incoming-goods.index');
+        Route::get('/create', [IncomingGoodsController::class, 'create'])->name('incoming-goods.create');
         Route::post('/store', [IncomingGoodsController::class, 'store'])->name('incoming-goods.store');
         Route::get('/{id}/edit', [IncomingGoodsController::class, 'edit'])->name('incoming-goods.edit');
         Route::put('/{id}', [IncomingGoodsController::class, 'update'])->name('incoming-goods.update');
