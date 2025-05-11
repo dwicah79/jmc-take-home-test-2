@@ -57,100 +57,74 @@
                 'Total',
                 'Status',
             ]" :rows="$incomingGoods">
+
                 @forelse ($incomingGoods as $incoming)
                     @php
                         $goodsDetails = $incoming->goodsDetail;
-                        $rowspan = count($goodsDetails) > 0 ? count($goodsDetails) : 1;
+                        $rowspan = count($goodsDetails);
                     @endphp
 
-                    @if (count($goodsDetails) > 0)
-                        @foreach ($goodsDetails as $index => $detail)
-                            <tr class="{{ $loop->parent->even ? 'bg-gray-100' : 'bg-white' }}">
-                                @if ($index === 0)
-                                    <td rowspan="{{ $rowspan }}" class="px-4 py-2 text-center align-top">
-                                        {{ ($incomingGoods->currentPage() - 1) * $incomingGoods->perPage() + $loop->parent->iteration }}
-                                    </td>
-                                    <td rowspan="{{ $rowspan }}" class="px-4 py-2 align-top">
-                                        <div class="inline-flex space-x-4">
-                                            <button type="button"
-                                                onclick="openEditModal('{{ $incoming->id }}', '{{ $incoming->code_category }}', '{{ $incoming->name_category }}')"
-                                                class="text-blue-600 hover:underline hover:cursor-pointer">
-                                                <i class="fa-solid fa-pencil"></i>
-                                            </button>
-
-                                            <form method="POST"
-                                                action="{{ route('incoming-goods.destroy', $incoming->id) }}"
-                                                class="delete-form">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="button"
-                                                    class="text-red-600 hover:underline delete-btn hover:cursor-pointer">
-                                                    <i class="fa-solid fa-trash-can"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </td>
-                                    <td rowspan="{{ $rowspan }}" class="px-4 py-2 font-semibold align-top">
-                                        {{ $incoming->date }}</td>
-                                    <td rowspan="{{ $rowspan }}" class="px-4 py-2 font-semibold align-top">
-                                        {{ $incoming->origin_of_goods }}</td>
-                                    <td rowspan="{{ $rowspan }}" class="px-4 py-2 font-semibold align-top">
-                                        {{ $incoming->operator->name }}</td>
-                                    <td rowspan="{{ $rowspan }}" class="px-4 py-2 font-semibold align-top">
-                                        {{ $incoming->unit }}</td>
-                                @endif
-
-                                <td class="px-4 py-2 font-semibold">{{ $incoming->category->code_category }}</td>
-                                <td class="px-4 py-2 font-semibold">{{ $detail->goods_name ?? '-' }}</td>
-                                <td class="px-4 py-2 font-semibold text-right">
-                                    {{ number_format($detail->price ?? 0, 0, ',', '.') }}
+                    @foreach ($goodsDetails as $index => $detail)
+                        <tr class="{{ $loop->parent->even ? 'bg-gray-100' : 'bg-white' }}">
+                            @if ($index === 0)
+                                <td rowspan="{{ $rowspan }}" class="px-4 py-2 text-center align-top">
+                                    {{ ($incomingGoods->currentPage() - 1) * $incomingGoods->perPage() + $loop->parent->iteration }}
                                 </td>
-                                <td class="px-4 py-2 font-semibold text-center">{{ $detail->volume ?? '-' }}</td>
-                                <td class="px-4 py-2 font-semibold text-right">
-                                    {{ number_format($detail->price * $detail->volume ?? 0, 2) }}</td>
-
-                                @if ($index === 0)
-                                    <td rowspan="{{ $rowspan }}"
-                                        class="px-4 py-2 font-semibold text-center align-top">{{ $incoming->status }}</td>
-                                @endif
-                            </tr>
-                        @endforeach
-                    @else
-                        <tr class="{{ $loop->even ? 'bg-gray-100' : 'bg-white' }}">
-                            <td class="px-4 py-2 text-center">
-                                {{ ($incomingGoods->currentPage() - 1) * $incomingGoods->perPage() + $loop->iteration }}
-                            </td>
-                            <td class="px-4 py-2">
-                                <div class="inline-flex space-x-4">
-                                    <button type="button"
-                                        onclick="openEditModal('{{ $incoming->id }}', '{{ $incoming->code_category }}', '{{ $incoming->name_category }}')"
-                                        class="text-blue-600 hover:underline hover:cursor-pointer">
-                                        <i class="fa-solid fa-pencil"></i>
-                                    </button>
-
-                                    <form method="POST" action="{{ route('incoming-goods.destroy', $incoming->id) }}"
-                                        class="delete-form">
-                                        @csrf
-                                        @method('DELETE')
+                                <td rowspan="{{ $rowspan }}" class="px-4 py-2 text-center align-top">
+                                    <div class="inline-flex space-x-4">
                                         <button type="button"
-                                            class="text-red-600 hover:underline delete-btn hover:cursor-pointer">
-                                            <i class="fa-solid fa-trash-can"></i>
+                                            onclick="openEditModal('{{ $incoming->id }}', '{{ $incoming->code_category }}', '{{ $incoming->name_category }}')"
+                                            class="text-blue-600 hover:underline hover:cursor-pointer">
+                                            <i class="fa-solid fa-pencil"></i>
                                         </button>
-                                    </form>
-                                </div>
-                            </td>
-                            <td class="px-4 py-2 font-semibold">{{ $incoming->date }}</td>
-                            <td class="px-4 py-2 font-semibold">{{ $incoming->origin_of_goods }}</td>
-                            <td class="px-4 py-2 font-semibold">{{ $incoming->operator->name }}</td>
-                            <td class="px-4 py-2 font-semibold">{{ $incoming->unit }}</td>
+
+                                        <form method="POST" action="{{ route('incoming-goods.destroy', $incoming->id) }}"
+                                            class="delete-form">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button"
+                                                class="text-red-600 hover:underline delete-btn hover:cursor-pointer">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td rowspan="{{ $rowspan }}" class="px-4 py-2 font-semibold align-top">
+                                    {{ $incoming->date }}
+                                </td>
+                                <td rowspan="{{ $rowspan }}" class="px-4 py-2 font-semibold align-top">
+                                    {{ $incoming->origin_of_goods }}
+                                </td>
+                                <td rowspan="{{ $rowspan }}" class="px-4 py-2 font-semibold align-top">
+                                    {{ $incoming->operator->name }}
+                                </td>
+                                <td rowspan="{{ $rowspan }}" class="px-4 py-2 font-semibold align-top">
+                                    {{ $incoming->unit }}
+                                </td>
+                            @endif
+
                             <td class="px-4 py-2 font-semibold">{{ $incoming->category->code_category }}</td>
-                            <td colspan="4" class="px-4 py-2 text-center">Tidak ada detail barang</td>
-                            <td class="px-4 py-2 font-semibold">{{ $incoming->status }}</td>
+                            <td class="px-4 py-2 font-semibold">{{ $detail->goods_name }}</td>
+                            <td class="px-4 py-2 font-semibold text-right">
+                                {{ number_format($detail->price, 0, ',', '.') }}
+                            </td>
+                            <td class="px-4 py-2 font-semibold text-center">{{ $detail->volume }}</td>
+                            <td class="px-4 py-2 font-semibold text-right">
+                                {{ number_format($detail->price * $detail->volume, 0, ',', '.') }}
+                            </td>
+                            <td class="px-4 py-2 font-semibold text-center">
+                                @if ($detail->status == 0)
+                                    <i class="fa-regular fa-circle-xmark"></i>
+                                @else
+                                    <i class="fa-solid fa-circle-check text-green-600"></i>
+                                @endif
+                            </td>
                         </tr>
-                    @endif
+                    @endforeach
+
                 @empty
-                    <tr class="bg-white">
-                        <td colspan="12" class="px-4 py-2 text-center text-gray-500">Tidak ada data</td>
+                    <tr>
+                        <td colspan="12">Tidak ada data</td>
                     </tr>
                 @endforelse
             </x-data-table>

@@ -34,7 +34,6 @@ class IncomingGoodsSeeder extends Seeder
                 'attachment' => null,
                 'total_price' => 0,
                 'date' => now()->subDays(rand(1, 30)),
-                'status' => false,
             ]);
 
             $details = [];
@@ -53,6 +52,7 @@ class IncomingGoodsSeeder extends Seeder
                     'price' => $harga,
                     'volume' => $jumlah,
                     'unit' => 'pcs',
+                    'status' => false,
                     'total' => $totalItem,
                     'expired_date' => now()->addMonths(rand(1, 12)),
                     'created_at' => now(),
