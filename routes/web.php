@@ -55,3 +55,5 @@ Route::middleware('auth', 'checkpermission')->group(function () {
         Route::put('/{id}/unlock', [UserManagementController::class, 'unlock'])->name('users.unlock');
     });
 });
+
+Route::get('/get-subcategories', [IncomingGoodsController::class, 'getSubcategories'])->name('getSubcategories');
