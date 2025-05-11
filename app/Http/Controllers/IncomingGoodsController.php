@@ -84,4 +84,16 @@ class IncomingGoodsController extends Controller
         }
     }
 
+    public function verified($id)
+    {
+        try {
+            $this->incomingGoodsService->verified($id, true);
+            return redirect()->route('incoming-goods.index')
+                ->with('success', 'Barang masuk berhasil diverifikasi');
+        } catch (\Exception $e) {
+            return redirect()->route('incoming-goods.index')
+                ->with('error', 'Gagal memverifikasi barang masuk: ' . $e->getMessage());
+        }
+    }
+
 }
