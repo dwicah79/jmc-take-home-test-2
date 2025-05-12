@@ -21,9 +21,12 @@ class IncomingGoodsController extends Controller
     }
     public function index()
     {
-        $filters = request()->all();
+        $filters = request()->only(['category_id', 'sub_category_id', 'year', 'search']);
+        $categories = $this->incomingGoodsService->getCategory();
+        $subcategories = $this->incomingGoodsService->getSubCategory($filters['category_id'] ?? null);
+        $years = $this->incomingGoodsService->getYear() ?? collect();
         $incomingGoods = $this->incomingGoodsService->list($filters);
-        return view('IncomingGoods.index', compact('incomingGoods'));
+        return view('IncomingGoods.index', compact('incomingGoods', 'filters', 'categories', 'subcategories', 'years'));
     }
 
     public function create()
