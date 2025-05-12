@@ -64,7 +64,7 @@ class IncomingGoodsRepository implements IncomingGoodsRepositoryInterfaces
     {
         return User::whereHas('roles', function ($query) {
             $query->where('name', 'operator');
-        })->get();
+        })->where('is_locked', false)->get();
     }
 
     public function getCategory()
