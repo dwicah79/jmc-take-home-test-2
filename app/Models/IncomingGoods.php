@@ -7,16 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class IncomingGoods extends Model
 {
     protected $table = 'incoming_goods';
-    protected $fillable = [
-        'user_id',
-        'category_id',
-        'sub_category_id',
-        'origin_of_goods',
-        'document_number',
-        'attachment',
-        'total_price',
-        'date',
-        'status',
+    protected $guarded = [
+        'id'
     ];
 
     public function operator()
@@ -31,7 +23,7 @@ class IncomingGoods extends Model
 
     public function subcategory()
     {
-        return $this->belongsTo(SubCategory::class);
+        return $this->belongsTo(SubCategory::class, 'sub_category_id');
     }
 
     public function goodsDetail()
