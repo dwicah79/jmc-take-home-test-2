@@ -12,7 +12,7 @@ use App\Http\Requests\IncomingGoodsRequest;
 use Illuminate\Validation\ValidationException;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\IncomingGoodsExport;
-
+use App\Models\IncomingGoods;
 
 class IncomingGoodsController extends Controller
 {
@@ -106,5 +106,13 @@ class IncomingGoodsController extends Controller
         $filters = $request->only(['category_id', 'sub_category_id', 'year', 'search']);
         return Excel::download(new IncomingGoodsExport($request), 'incoming-goods.xlsx');
     }
+
+    public function print($id)
+    {
+        $incoming = IncomingGoods::with('goodsDetail', 'operator', 'category')->findOrFail($id);
+
+        return view('IncomingGoods.print', compact('incoming'));
+    }
+
 
 }
