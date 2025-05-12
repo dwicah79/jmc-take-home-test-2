@@ -10,7 +10,7 @@ use App\Repository\Interfaces\IncomingGoodsRepositoryInterfaces;
 
 class IncomingGoodsRepository implements IncomingGoodsRepositoryInterfaces
 {
-    public function all($filters)
+    public function all($filters, $search = null)
     {
         $query = IncomingGoods::with(['category', 'subcategory', 'operator', 'goodsDetail']);
 
@@ -26,17 +26,23 @@ class IncomingGoodsRepository implements IncomingGoodsRepositoryInterfaces
             $query->whereYear('date', $filters['year']);
         }
 
-        if (!empty($filters['search'])) {
-            $query->where(function ($q) use ($filters) {
-                $q->where('origin_of_goods', 'like', "%{$filters['search']}%")
-                    ->orWhereHas('subcategory', function ($q2) use ($filters) {
-                        $q2->where('name', 'like', "%{$filters['search']}%");
+        $searchKeyword = $filters['search'] ?? $search;
+
+        if (!empty($searchKeyword)) {
+            $query->where(function ($q) use ($searchKeyword) {
+                $q->where('origin_of_goods', 'like', "%{$searchKeyword}%")
+                    ->orWhereHas('subcategory', function ($q2) use ($searchKeyword) {
+                        $q2->where('sub_category_name', 'like', "%{$searchKeyword}%");
+                    })
+                    ->orWhereHas('goodsDetail', function ($q3) use ($searchKeyword) {
+                        $q3->where('goods_name', 'like', "%{$searchKeyword}%");
                     });
             });
         }
 
         return $query->orderByDesc('date')->paginate(10);
     }
+
 
     public function find($id)
     {
