@@ -120,6 +120,10 @@
                         <label class="block text-gray-700 mb-2">Asal Barang</label>
                         <input type="text" name="origin_of_goods" class="w-full px-4 py-2 border rounded-lg" required>
                     </div>
+                    <div class="w-full md:w-1/2">
+                        <label class="block text-gray-700 mb-2">Unit</label>
+                        <input type="text" name="unit" class="w-full px-4 py-2 border rounded-lg" required>
+                    </div>
                     <div class="w-full flex flex-col md:flex-wrap md:flex-row gap-4">
                         <div class="form-group w-full md:w-1/4">
                             <label class="block text-gray-700 mb-2">Nomor Surat</label>
