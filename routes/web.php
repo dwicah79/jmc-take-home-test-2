@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/{id}', [IncomingGoodsController::class, 'update'])->name('incoming-goods.update');
         Route::delete('/{id}', [IncomingGoodsController::class, 'destroy'])->name('incoming-goods.destroy');
         Route::put('/{id}/verified', [IncomingGoodsController::class, 'verified'])->name('incoming-goods.verified');
+        Route::get('/incoming-goods/{id}/print', [IncomingGoodsController::class, 'print'])->name('incoming-goods.print');
     });
 
     Route::prefix('categories')->group(function () {
