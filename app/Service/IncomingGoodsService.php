@@ -51,7 +51,7 @@ class IncomingGoodsService
                         'goods_name' => $item['name'],
                         'price' => $item['price'],
                         'volume' => $item['volume'],
-                        'unit' => $item['unit'],
+                        'measurement_unit' => $item['unit'],
                         'expired_date' => $item['expired_date'] ?? null,
                         'total' => $item['price'] * $item['volume'],
                     ];
