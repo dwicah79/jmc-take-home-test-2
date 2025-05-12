@@ -100,4 +100,9 @@ class IncomingGoodsService
     {
         return $this->detailRepo->verified($id, $data);
     }
+
+    public function getYear()
+    {
+        return $this->goodsRepo->getYear();
+    }
 }
