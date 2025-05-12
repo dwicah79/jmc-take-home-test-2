@@ -17,13 +17,70 @@
                 <x-alert type="warning" message="{{ $message }}" />
             @enderror
 
-            <div class="flex justify-between items-center mb-4 p-2 md:p-0">
-                <a href="{{ route('incoming-goods.create') }}"
-                    class="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-700">Tambah Data</a>
-                <div class="w-1/2 flex justify-end">
-                    <x-search-component />
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4 p-2 md:p-0 w-full">
+                <div class="whitespace-nowrap">
+                    <a href="{{ route('incoming-goods.create') }}"
+                        class="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-700">
+                        Tambah Data
+                    </a>
+                </div>
+                <div class="w-full md:w-auto">
+                    <form action="{{ route('incoming-goods.index') }}">
+                        <div class="flex flex-col md:flex-row flex-wrap gap-2 md:justify-end">
+                            <div>
+                                <select name="category_id" id="category_id"
+                                    class="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-2.5 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Pilih Kategori</option>
+                                    @foreach ($categories as $item)
+                                        <option value="{{ $item->id }}"
+                                            {{ request('category_id') == $item->id ? 'selected' : '' }}>
+                                            {{ $item->name_category }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div>
+                                <select name="sub_category_id" id="subcategory_id"
+                                    class="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-2.5 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Pilih Sub Kategori</option>
+                                    @if (request('category_id'))
+                                        @foreach ($subcategories as $item)
+                                            <option value="{{ $item->id }}"
+                                                {{ request('sub_category_id') == $item->id ? 'selected' : '' }}>
+                                                {{ $item->sub_category_name }}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <div>
+                                <select name="year" id="year"
+                                    class="appearance-none block w-full bg-white border border-gray-300 text-gray-700 py-2.5 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                                    <option value="">Semua Tahun</option>
+                                    @forelse ($years as $year)
+                                        <option value="{{ $year }}"
+                                            {{ request('year') == $year ? 'selected' : '' }}>
+                                            {{ $year }}
+                                        </option>
+                                    @empty
+                                        <option value="" disabled>Tidak ada data tahun</option>
+                                    @endforelse
+                                </select>
+                            </div>
+                            <div>
+                                <x-search-component />
+                            </div>
+                            <div>
+                                <button type="submit" class="btn-primary w-full md:w-auto hover:cursor-pointer">
+                                    Cari
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
+
+
 
             <x-data-table :headers="[
                 'No',
@@ -71,16 +128,20 @@
                                         </form>
                                     </div>
                                 </td>
-                                <td rowspan="{{ $rowspan }}" class="px-4 py-2 font-semibold align-top">
-                                    {{ $incoming->date }}
+                                <td rowspan="{{ $rowspan }}"
+                                    class="px-4 py-2 font-semibold align-top whitespace-nowrap">
+                                    {{ $incoming->created_at }}
                                 </td>
-                                <td rowspan="{{ $rowspan }}" class="px-4 py-2 font-semibold align-top">
+                                <td rowspan="{{ $rowspan }}"
+                                    class="px-4 py-2 font-semibold align-top whitespace-nowrap ">
                                     {{ $incoming->origin_of_goods }}
                                 </td>
-                                <td rowspan="{{ $rowspan }}" class="px-4 py-2 font-semibold align-top">
+                                <td rowspan="{{ $rowspan }}"
+                                    class="px-4 py-2 font-semibold align-top whitespace-nowrap ">
                                     {{ $incoming->operator->name }}
                                 </td>
-                                <td rowspan="{{ $rowspan }}" class="px-4 py-2 font-semibold align-top">
+                                <td rowspan="{{ $rowspan }}"
+                                    class="px-4 py-2 font-semibold align-top whitespace-nowrap ">
                                     {{ $incoming->unit }}
                                 </td>
                             @endif
@@ -211,6 +272,50 @@
         document.getElementById('editModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeEditModal();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const categorySelect = document.getElementById('category_id');
+            const subCategorySelect = document.getElementById('subcategory_id');
+
+            function loadSubCategories(categoryId) {
+                subCategorySelect.innerHTML = '<option value="">Pilih Sub Kategori</option>';
+
+                if (!categoryId) return;
+                const loadingOption = document.createElement('option');
+                loadingOption.value = '';
+                loadingOption.textContent = 'Memuat...';
+                loadingOption.disabled = true;
+                subCategorySelect.appendChild(loadingOption);
+                fetch(`/get-subcategories?category_id=${categoryId}`)
+                    .then(response => {
+                        if (!response.ok) throw new Error('Network response was not ok');
+                        return response.json();
+                    })
+                    .then(data => {
+                        subCategorySelect.innerHTML = '<option value="">Pilih Sub Kategori</option>';
+                        data.forEach(item => {
+                            const option = document.createElement('option');
+                            option.value = item.id;
+                            option.textContent = item.sub_category_name;
+                            if (item.id == "{{ request('sub_category_id') }}") {
+                                option.selected = true;
+                            }
+
+                            subCategorySelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        subCategorySelect.innerHTML = '<option value="">Error memuat subkategori</option>';
+                    });
+            }
+            categorySelect.addEventListener('change', function() {
+                loadSubCategories(this.value);
+            });
+            if (categorySelect.value) {
+                loadSubCategories(categorySelect.value);
             }
         });
     </script>
