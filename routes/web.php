@@ -58,3 +58,4 @@ Route::middleware('auth', 'checkpermission')->group(function () {
 });
 
 Route::get('/get-subcategories', [IncomingGoodsController::class, 'getSubcategories'])->name('getSubcategories');
+Route::get('/incoming-goods/export', [IncomingGoodsController::class, 'export'])->name('incoming-goods.export');
