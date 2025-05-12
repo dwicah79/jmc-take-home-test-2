@@ -13,21 +13,16 @@ class IncomingGoodsRepository implements IncomingGoodsRepositoryInterfaces
     public function all($filters, $search = null)
     {
         $query = IncomingGoods::with(['category', 'subcategory', 'operator', 'goodsDetail']);
-
         if (!empty($filters['category_id'])) {
             $query->where('category_id', $filters['category_id']);
+            if (!empty($filters['sub_category_id'])) {
+                $query->where('sub_category_id', $filters['sub_category_id']);
+            }
         }
-
-        if (!empty($filters['sub_category_id'])) {
-            $query->where('sub_category_id', $filters['sub_category_id']);
-        }
-
         if (!empty($filters['year'])) {
-            $query->whereYear('date', $filters['year']);
+            $query->whereYear('created_at', $filters['year']);
         }
-
         $searchKeyword = $filters['search'] ?? $search;
-
         if (!empty($searchKeyword)) {
             $query->where(function ($q) use ($searchKeyword) {
                 $q->where('origin_of_goods', 'like', "%{$searchKeyword}%")
@@ -36,6 +31,9 @@ class IncomingGoodsRepository implements IncomingGoodsRepositoryInterfaces
                     })
                     ->orWhereHas('goodsDetail', function ($q3) use ($searchKeyword) {
                         $q3->where('goods_name', 'like', "%{$searchKeyword}%");
+                    })
+                    ->orWhereHas('category', function ($q4) use ($searchKeyword) {
+                        $q4->where('name_category', 'like', "%{$searchKeyword}%");
                     });
             });
         }
@@ -88,5 +86,16 @@ class IncomingGoodsRepository implements IncomingGoodsRepositoryInterfaces
                 $item->price_range = (float) $item->price_range; // Pastikan numeric
                 return $item;
             });
+    }
+    public function getYear()
+    {
+        return IncomingGoods::selectRaw('YEAR(COALESCE(date, created_at)) as year')
+            ->where(function ($query) {
+                $query->whereNotNull('date')
+                    ->orWhereNotNull('created_at');
+            })
+            ->groupBy('year')
+            ->orderBy('year', 'desc')
+            ->pluck('year');
     }
 }
