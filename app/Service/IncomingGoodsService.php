@@ -32,9 +32,6 @@ class IncomingGoodsService
 
     public function create(array $data, array $items, $file = null)
     {
-        if (empty($items)) {
-            throw new \InvalidArgumentException('At least one item is required');
-        }
         return DB::transaction(function () use ($data, $items, $file) {
             try {
                 if ($file) {
