@@ -24,6 +24,13 @@
                         Tambah Data
                     </a>
                 </div>
+                <div class="whitespace-nowrap">
+                    <a href="{{ route('incoming-goods.export', request()->only(['category_id', 'sub_category_id', 'year', 'search'])) }}"
+                        class="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-700 inline-flex items-center gap-2">
+                        <i class="fa-solid fa-file-excel"></i>
+                        Export Laporan
+                    </a>
+                </div>
                 <div class="w-full md:w-auto">
                     <form action="{{ route('incoming-goods.index') }}">
                         <div class="flex flex-col md:flex-row flex-wrap gap-2 md:justify-end">
