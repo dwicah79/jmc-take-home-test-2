@@ -38,7 +38,7 @@ class IncomingGoodsRepository implements IncomingGoodsRepositoryInterfaces
             });
         }
 
-        return $query->orderByDesc('date')->paginate(10);
+        return $query->paginate(10);
     }
 
 
@@ -89,10 +89,9 @@ class IncomingGoodsRepository implements IncomingGoodsRepositoryInterfaces
     }
     public function getYear()
     {
-        return IncomingGoods::selectRaw('YEAR(COALESCE(date, created_at)) as year')
+        return IncomingGoods::selectRaw('YEAR(COALESCE(created_at)) as year')
             ->where(function ($query) {
-                $query->whereNotNull('date')
-                    ->orWhereNotNull('created_at');
+                $query->WhereNotNull('created_at');
             })
             ->groupBy('year')
             ->orderBy('year', 'desc')
