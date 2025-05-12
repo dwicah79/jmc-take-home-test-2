@@ -39,8 +39,13 @@ class IncomingGoodsService
             try {
                 if ($file) {
                     $filename = Str::random(20) . '.' . $file->extension();
-                    $path = $file->storeAs('incoming_goods/attachments', $filename, 'private');
+                    $path = $file->storeAs(
+                        'incoming_goods/attachments',
+                        $filename,
+                        'public'
+                    );
                     $data['attachment_path'] = $path;
+                    $data['attachment_url'] = Storage::url($path);
                 }
                 $incomingGoods = $this->goodsRepo->create($data);
                 $items = array_map(function ($item) use ($incomingGoods) {
