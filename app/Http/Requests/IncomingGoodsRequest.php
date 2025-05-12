@@ -29,7 +29,7 @@ class IncomingGoodsRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
             'sub_category_id' => 'required|exists:sub_categories,id',
             'origin_of_goods' => 'required|string',
-            'attachment' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048',
+            'attachment' => 'nullable|file|mimes:doc,docx,zip|max:2048',
 
             'items' => 'required|array|min:1',
             'items.*.name' => 'required|string',
@@ -55,6 +55,7 @@ class IncomingGoodsRequest extends FormRequest
             'price.required' => 'harga barang wajib diisi',
             'volume.required' => 'qty wajib diisi',
             'unit.required' => ' unit wajib diisi',
+            'attachment.mimes' => 'File harus berupa dokumen doc,docx,zip',
         ];
     }
 
