@@ -11,4 +11,5 @@ interface IncomingGoodsRepositoryInterfaces
     public function getOperator();
     public function getCategory();
     public function getSubCategory($categoryId);
+    public function getYear();
 }
