@@ -10,6 +10,8 @@ use App\Service\IncomingGoodsService;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\IncomingGoodsRequest;
 use Illuminate\Validation\ValidationException;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\IncomingGoodsExport;
 
 
 class IncomingGoodsController extends Controller
@@ -97,6 +99,12 @@ class IncomingGoodsController extends Controller
             return redirect()->route('incoming-goods.index')
                 ->with('error', 'Gagal memverifikasi barang masuk: ' . $e->getMessage());
         }
+    }
+
+    public function export(Request $request)
+    {
+        $filters = $request->only(['category_id', 'sub_category_id', 'year', 'search']);
+        return Excel::download(new IncomingGoodsExport($request), 'incoming-goods.xlsx');
     }
 
 }
