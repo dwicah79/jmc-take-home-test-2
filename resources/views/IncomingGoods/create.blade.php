@@ -195,7 +195,7 @@
                                 <div class="form-group">
                                     <label class="block text-gray-700 mb-2 text-sm">Tgl. Expired</label>
                                     <input type="date" class="w-full px-3 py-2 border rounded"
-                                        name="items[0][expired_date]" required>
+                                        name="items[0][expired_date]">
                                 </div>
                             </div>
                             <div class="mt-3 flex justify-end">
