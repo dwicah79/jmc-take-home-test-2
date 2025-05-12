@@ -5,6 +5,27 @@
         <form id="incomingGoodsForm" method="POST" action="{{ route('incoming-goods.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="mb-8">
+                @error('user_id')
+                    <x-alert type="warning" message="{{ $message }}" />
+                @enderror
+                @error('category_id')
+                    <x-alert type="warning" message="{{ $message }}" />
+                @enderror
+                @error('sub_category_id')
+                    <x-alert type="warning" message="{{ $message }}" />
+                @enderror
+                @error('origin_of_goods')
+                    <x-alert type="warning" message="{{ $message }}" />
+                @enderror
+                @error('price_range')
+                    <x-alert type="warning" message="{{ $message }}" />
+                @enderror
+                @error('number_document')
+                    <x-alert type="warning" message="{{ $message }}" />
+                @enderror
+                @error('attachment')
+                    <x-alert type="warning" message="{{ $message }}" />
+                @enderror
                 <h3 class="text-lg font-medium mb-4 border-b pb-2">INFORMASI UMUM</h3>
                 <div class="flex flex-col md:flex-row md:flex-wrap gap-4">
                     <div class="w-full">
@@ -108,13 +129,13 @@
                         <div class="form-group w-full md:w-1/4">
                             <label class="block text-gray-700 mb-2">Lampiran</label>
                             <div class="border rounded-lg p-2">
-                                <input type="file" id="attachment" name="attachment" class="hidden">
-                                <label for="attachment" class="cursor-pointer">
+                                <input type="file" id="attachment" name="attachment">
+                                {{-- <label for="attachment" class="cursor-pointer">
                                     <div class="flex items-center">
                                         <span class="bg-gray-100 px-3  rounded-l border-r">Choose File</span>
                                         <span class="px-3 text-gray-500">No file chosen</span>
                                     </div>
-                                </label>
+                                </label> --}}
                             </div>
                         </div>
                     </div>
