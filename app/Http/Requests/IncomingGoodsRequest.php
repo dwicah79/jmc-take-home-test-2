@@ -29,7 +29,9 @@ class IncomingGoodsRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
             'sub_category_id' => 'required|exists:sub_categories,id',
             'origin_of_goods' => 'required|string',
-            'attachment' => 'nullable|file|mimes:doc,docx,zip|max:2048',
+            'attachment' => 'nullable|file|mimes:doc,docx,zip',
+            'unit' => 'nullable|string|max:100',
+            'number_document' => 'nullable|string|max:100',
 
             'items' => 'required|array|min:1',
             'items.*.name' => 'required|string',
@@ -48,6 +50,7 @@ class IncomingGoodsRequest extends FormRequest
             'category_id.required' => 'Category wajib diisi',
             'subcategory_id.required' => 'Subcategory wajib diisi',
             'origin.required' => 'Asal barang wajib diisi',
+            'unit.max' => 'Unit maksimal 100 karakter',
             'number_document.max' => 'Nomor dokumen maksimal 100 karakter',
             'attachment.file' => 'File harus berupa dokumen doc,docx,zip',
             'origin.max' => 'Asal barang maksimal 200 karakter',
