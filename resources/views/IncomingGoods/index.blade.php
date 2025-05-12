@@ -2,7 +2,7 @@
 @section('content')
     <x-breadcrumb :items="[['label' => 'Barang Masuk', 'url' => route('incoming-goods.index')]]" />
 
-    <div class="w-full bg-white rounded-lg shadow-lg">
+    <div class="w-full bg-white rounded-lg shadow-lg overflow-hidden">
         <div class="md:p-10">
             @if (session('success'))
                 <x-alert type="success" message="{{ session('success') }}" />
@@ -18,13 +18,13 @@
             @enderror
 
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4 p-2 md:p-0 w-full">
-                <div class="whitespace-nowrap">
+                <div class="">
                     <a href="{{ route('incoming-goods.create') }}"
                         class="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-700">
                         Tambah Data
                     </a>
                 </div>
-                <div class="whitespace-nowrap">
+                <div class="">
                     <a href="{{ route('incoming-goods.export', request()->only(['category_id', 'sub_category_id', 'year', 'search'])) }}"
                         class="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-700 inline-flex items-center gap-2">
                         <i class="fa-solid fa-file-excel"></i>
@@ -133,22 +133,22 @@
                                                 <i class="fa-solid fa-trash-can"></i>
                                             </button>
                                         </form>
+                                        <a href="{{ route('incoming-goods.print', $incoming->id) }}" target="_blank"
+                                            class="text-green-600 hover:underline hover:cursor-pointer">
+                                            <i class="fa-solid fa-print"></i>
+                                        </a>
                                     </div>
                                 </td>
-                                <td rowspan="{{ $rowspan }}"
-                                    class="px-4 py-2 font-semibold align-top whitespace-nowrap">
+                                <td rowspan="{{ $rowspan }}" class="px-4 py-2 font-semibold align-top ">
                                     {{ $incoming->created_at }}
                                 </td>
-                                <td rowspan="{{ $rowspan }}"
-                                    class="px-4 py-2 font-semibold align-top whitespace-nowrap ">
+                                <td rowspan="{{ $rowspan }}" class="px-4 py-2 font-semibold align-top  ">
                                     {{ $incoming->origin_of_goods }}
                                 </td>
-                                <td rowspan="{{ $rowspan }}"
-                                    class="px-4 py-2 font-semibold align-top whitespace-nowrap ">
+                                <td rowspan="{{ $rowspan }}" class="px-4 py-2 font-semibold align-top  ">
                                     {{ $incoming->operator->name }}
                                 </td>
-                                <td rowspan="{{ $rowspan }}"
-                                    class="px-4 py-2 font-semibold align-top whitespace-nowrap ">
+                                <td rowspan="{{ $rowspan }}" class="px-4 py-2 font-semibold align-top  ">
                                     {{ $incoming->unit }}
                                 </td>
                             @endif
